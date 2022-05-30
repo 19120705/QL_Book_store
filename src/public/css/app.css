@@ -1,0 +1,12 @@
+footer {
+  text-align: center;
+  padding: 3px;
+  background-color: DarkSalmon;
+  color: white;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%; }
+
+.card-course-item {
+  margin-top: 16px; }
