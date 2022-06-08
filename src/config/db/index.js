@@ -1,13 +1,19 @@
-const mongoose =require('mongoose');
+const Sequelize = require('sequelize');
+//const initModels = require("../../app/models/init-models");
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
+    host: process.env.DB_HOST, port: process.env.DB_PORT, 
+    dialect: 'mysql',
+    // dialectOptions: {
+    //     socketPath: process.env.DB_HOST
+    // },
+});
 
-async function connect(){
-    try {
-        await mongoose.connect('mongodb://localhost:27017/web_education_dev');
-        console.log('Connect DB successfully!!!');
-    } catch (error) {
-        console.log('Connect DB failure!!!mongodb://localhost:27017/web_education_dev');
-    }
-
-}
-
-module.exports={connect};
+sequelize.authenticate().then(() => {
+    console.log("Connected");
+}).catch(()=> {
+    console.log("NotConnected"); 
+})
+module.exports = {
+    sequelize,
+    //models: initModels(sequelize),
+};
