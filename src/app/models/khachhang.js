@@ -7,15 +7,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     HOTEN: {
-      type: DataTypes.STRING(30),
-      allowNull: true
-    },
-    NGAYSINH: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    PHAI: {
-      type: DataTypes.STRING(4),
+      type: DataTypes.STRING(50),
       allowNull: true
     },
     DIACHI: {
@@ -23,7 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     SDT: {
-      type: DataTypes.STRING(20),
+      type: DataTypes.STRING(10),
       allowNull: true
     },
     EMAIL: {

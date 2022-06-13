@@ -1,22 +1,18 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('theloai', {
-    maTL: {
+  return sequelize.define('loaisach', {
+    MaLoai: {
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    tenTL: {
+    TenLoai: {
       type: DataTypes.STRING(50),
-      allowNull: false
-    },
-    Mota: {
-      type: DataTypes.STRING(500),
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'theloai',
+    tableName: 'loaisach',
     timestamps: false,
     indexes: [
       {
@@ -24,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "maTL" },
+          { name: "MaLoai" },
         ]
       },
     ]

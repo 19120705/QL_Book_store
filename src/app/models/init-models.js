@@ -1,37 +1,30 @@
 var DataTypes = require("sequelize").DataTypes;
-var _ct_phieumua = require("./ct_phieumua");
+var _ct_hoadon = require("./ct_hoadon");
 var _ct_phieunhap = require("./ct_phieunhap");
+var _hoadon = require("./hoadon");
 var _khachhang = require("./khachhang");
+var _loaisach = require("./loaisach");
 var _nhanvien = require("./nhanvien");
-var _nodatra = require("./nodatra");
-var _nophaitra = require("./nophaitra");
-var _nxb = require("./nxb");
-var _phieumua = require("./phieumua");
-var _phieunhap = require("./phieunhap");
-var _rules = require("./rules");
+var _phieunhapsach = require("./phieunhapsach");
+var _phieuthutien = require("./phieuthutien");
+var _quydinh = require("./quydinh");
 var _sach = require("./sach");
-var _theloai = require("./theloai");
-var _theloaiofsach = require("./theloaiofsach");
-var _tonkho = require("./tonkho");
 var _tonno = require("./tonno");
 
-function initModels(sequelize) {
-  var ct_phieumua = _ct_phieumua(sequelize, DataTypes);
-  var ct_phieunhap = _ct_phieunhap(sequelize, DataTypes);
-  var khachhang = _khachhang(sequelize, DataTypes);
-  var nhanvien = _nhanvien(sequelize, DataTypes);
-  var nodatra = _nodatra(sequelize, DataTypes);
-  var nophaitra = _nophaitra(sequelize, DataTypes);
-  var nxb = _nxb(sequelize, DataTypes);
-  var phieumua = _phieumua(sequelize, DataTypes);
-  var phieunhap = _phieunhap(sequelize, DataTypes);
-  var rules = _rules(sequelize, DataTypes);
-  var sach = _sach(sequelize, DataTypes);
-  var theloai = _theloai(sequelize, DataTypes);
-  var theloaiofsach = _theloaiofsach(sequelize, DataTypes);
-  var tonkho = _tonkho(sequelize, DataTypes);
-  var tonno = _tonno(sequelize, DataTypes);
 
+function initModels(sequelize) {
+  var ct_hoadon = _ct_hoadon(sequelize, DataTypes);
+  var ct_phieunhap = _ct_phieunhap(sequelize, DataTypes);
+  var hoadon = _hoadon(sequelize, DataTypes);
+  var khachhang = _khachhang(sequelize, DataTypes);
+  var loaisach = _loaisach(sequelize, DataTypes);
+  var nhanvien = _nhanvien(sequelize, DataTypes);
+  var phieunhapsach = _phieunhapsach(sequelize, DataTypes);
+  var phieuthutien = _phieuthutien(sequelize, DataTypes);
+  var quydinh = _quydinh(sequelize, DataTypes);
+  var sach = _sach(sequelize, DataTypes);
+  var tonno = _tonno(sequelize, DataTypes);
+  // Sửa từ đây nha----------------------
   phieumua.belongsToMany(sach, { as: 'MASACH_saches', through: ct_phieumua, foreignKey: "MAPM", otherKey: "MASACH" });
   phieunhap.belongsToMany(sach, { as: 'MASACH_sach_ct_phieunhaps', through: ct_phieunhap, foreignKey: "MAPN", otherKey: "MASACH" });
   sach.belongsToMany(phieumua, { as: 'MAPM_phieumuas', through: ct_phieumua, foreignKey: "MASACH", otherKey: "MAPM" });
@@ -70,21 +63,17 @@ function initModels(sequelize) {
   theloai.hasMany(theloaiofsach, { as: "theloaiofsaches", foreignKey: "maTL"});
 
   return {
-    ct_phieumua,
+    ct_hoadon,
     ct_phieunhap,
+    hoadon,
     khachhang,
+    loaisach,
     nhanvien,
-    nodatra,
-    nophaitra,
-    nxb,
-    phieumua,
-    phieunhap,
-    rules,
+    phieunhapsach,
+    phieuthutien,
+    quydinh,
     sach,
-    theloai,
-    theloaiofsach,
-    tonkho,
-    tonno,
+    tonno
   };
 }
 module.exports = initModels;
