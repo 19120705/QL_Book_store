@@ -15,19 +15,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    nodau: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    nocuoi: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    tongno: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    tongtra: {
+    SoNo: {
       type: DataTypes.INTEGER,
       allowNull: true
     }
@@ -44,6 +32,13 @@ module.exports = function(sequelize, DataTypes) {
         fields: [
           { name: "MAKH" },
           { name: "Ngaythang" },
+        ]
+      },
+      {
+        name: "FK_KHACHHANG_TONNO",
+        using: "BTREE",
+        fields: [
+          { name: "MAKH" },
         ]
       },
     ]

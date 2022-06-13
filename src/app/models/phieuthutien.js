@@ -1,14 +1,18 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('phieumua', {
-    MAPM: {
-      type: DataTypes.STRING(5),
+  return sequelize.define('phieuthutien', {
+    MAPTT: {
+      type: DataTypes.STRING(6),
       allowNull: false,
       primaryKey: true
     },
-    NGAYMUA: {
+    NGAYTHUTIEN: {
       type: DataTypes.DATEONLY,
       allowNull: true
+    },
+    SOTIENTHU: {
+        type: DataTypes.INTEGER,
+        allowNull: true
     },
     MAKH: {
       type: DataTypes.STRING(6),
@@ -28,7 +32,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'phieumua',
+    tableName: 'phieuthutien',
     timestamps: false,
     indexes: [
       {
@@ -36,18 +40,18 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "MAPM" },
+          { name: "MAPTT" },
         ]
       },
       {
-        name: "FK_PMUA_KHACHHANG",
+        name: "FK_PTHUTIEN_KHACHHANG",
         using: "BTREE",
         fields: [
           { name: "MAKH" },
         ]
       },
       {
-        name: "FK_PMUA_NHANVIEN",
+        name: "FK_PTHUTIEN_NHANVIEN",
         using: "BTREE",
         fields: [
           { name: "MANV" },

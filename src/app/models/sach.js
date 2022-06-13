@@ -1,62 +1,34 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('sach', {
-    masach: {
+    MASACH: {
       type: DataTypes.STRING(6),
       allowNull: false,
       primaryKey: true
     },
-    tensach: {
+    TENSACH: {
       type: DataTypes.STRING(100),
       allowNull: true
     },
-    tacgia: {
+    TACGIA: {
       type: DataTypes.STRING(50),
       allowNull: true
     },
-    MOTA: {
-      type: DataTypes.STRING(1000),
-      allowNull: true
-    },
-    manxb: {
-      type: DataTypes.STRING(6),
-      allowNull: true,
-      references: {
-        model: 'nxb',
-        key: 'manxb'
-      }
-    },
-    ngayXB: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    gia: {
+    DONGIA: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    SL: {
+    LUONGTON: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    atDeleted: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    atUpdated: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    atCreated: {
-      type: DataTypes.DATE,
-      allowNull: true
-    },
-    IMAGE: {
-      type: DataTypes.STRING(500),
-      allowNull: true
-    },
-    IMAGE_PUBLICID: {
-      type: DataTypes.STRING(500),
-      allowNull: true
+    LOAISACH: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'loaisach',
+            key: 'MaLoai'
+          }
     }
   }, {
     sequelize,
@@ -69,14 +41,14 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "masach" },
+          { name: "MASACH" },
         ]
       },
       {
-        name: "FK_SACH_NXB",
+        name: "FK_SACH_LOAISACH",
         using: "BTREE",
         fields: [
-          { name: "manxb" },
+          { name: "MaLoai" },
         ]
       },
     ]

@@ -9,9 +9,9 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 });
 
 sequelize.authenticate().then(() => {
-    console.log("Connected");
+    console.log("Connected MySQL");
 }).catch(()=> {
-    console.log("NotConnected"); 
+    console.log("Connected MySQL ERROR!"); 
 })
 module.exports = {
     sequelize,

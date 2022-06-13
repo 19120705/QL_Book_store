@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('ct_phieumua', {
-    MAPM: {
-      type: DataTypes.STRING(5),
+  return sequelize.define('ct_hoadon', {
+    MAHD: {
+      type: DataTypes.STRING(6),
       allowNull: false,
       primaryKey: true,
       references: {
-        model: 'phieumua',
-        key: 'MAPM'
+        model: 'hoadon',
+        key: 'MAHD'
       }
     },
     MASACH: {
@@ -16,16 +16,20 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true,
       references: {
         model: 'sach',
-        key: 'masach'
+        key: 'MASACH'
       }
     },
-    SL: {
+    SOLUONG: {
       type: DataTypes.INTEGER,
-      allowNull: true
-    }
+      allowNull: false
+    },
+    DONGIA: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      }
   }, {
     sequelize,
-    tableName: 'ct_phieumua',
+    tableName: 'ct_hoadon',
     hasTrigger: true,
     timestamps: false,
     indexes: [
@@ -34,12 +38,19 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "MAPM" },
+          { name: "MAHD" },
           { name: "MASACH" },
         ]
       },
       {
-        name: "FK_CTPMUA_SACH",
+        name: "FK_CT_HOADON_HOADON",
+        using: "BTREE",
+        fields: [
+          { name: "MAHD" },
+        ]
+      },
+      {
+        name: "FK_CT_HOADON_SACH",
         using: "BTREE",
         fields: [
           { name: "MASACH" },
