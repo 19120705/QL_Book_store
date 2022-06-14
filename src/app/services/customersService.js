@@ -1,7 +1,6 @@
 const { models } = require("../../config/sequelize");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
-const cloudImage = require("../middlewares/uploadIMG/cloudinary");
 
 exports.list = (title, page, itemPerPage) => {
     var condition = "";
@@ -34,9 +33,7 @@ exports.add = async (req) => {
     return await models.khachhang.create({
         MAKH: req.body.MAKH,
         HOTEN: req.body.HOTEN,
-        NGAYSINH: req.body.NGAYSINH,
         DIACHI: req.body.DIACHI,
-        PHAI: req.body.PHAI,
         EMAIL: req.body.EMAIL,
         SDT: req.body.SDT,
     });

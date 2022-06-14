@@ -29,7 +29,6 @@ exports.add = async (req) => {
     if (req.body.PASS !== req.body.REPASS) {
         return "wrong password";
     }
-    
     req.body.MANV = await genKeyAccount(req.body.LOAINV);
     req.body.PASS = await bcrypt.hash(req.body.PASS, 10);
     await models.nhanvien.create({
@@ -48,7 +47,7 @@ exports.add = async (req) => {
     return "add success";
 };
 
-exports.genKeyAccount = async (role) => {
+genKeyAccount = async (role) => {
     var accounts = await models.nhanvien.findAll({paranoid: false,});
     var i = 1;
     var check = true;
