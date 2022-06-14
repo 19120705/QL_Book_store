@@ -25,6 +25,7 @@ function initModels(sequelize) {
   var sach = _sach(sequelize, DataTypes);
   var tonno = _tonno(sequelize, DataTypes);
   // Sửa từ đây nha----------------------
+/*
   phieumua.belongsToMany(sach, { as: 'MASACH_saches', through: ct_phieumua, foreignKey: "MAPM", otherKey: "MASACH" });
   phieunhap.belongsToMany(sach, { as: 'MASACH_sach_ct_phieunhaps', through: ct_phieunhap, foreignKey: "MAPN", otherKey: "MASACH" });
   sach.belongsToMany(phieumua, { as: 'MAPM_phieumuas', through: ct_phieumua, foreignKey: "MASACH", otherKey: "MAPM" });
@@ -61,7 +62,7 @@ function initModels(sequelize) {
   sach.hasMany(tonkho, { as: "tonkhos", foreignKey: "masach"});
   theloaiofsach.belongsTo(theloai, { as: "maTL_theloai", foreignKey: "maTL"});
   theloai.hasMany(theloaiofsach, { as: "theloaiofsaches", foreignKey: "maTL"});
-
+*/
   return {
     ct_hoadon,
     ct_phieunhap,

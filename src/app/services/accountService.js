@@ -1,7 +1,6 @@
 const { models } = require("../../config/sequelize");
 const { Op } = require("sequelize");
 const bcrypt = require("bcrypt");
-const cloudImage = require("../../app/middlewares/uploadIMG/cloudinary");
 
 exports.list = (title, page, itemPerPage) => {
   var condition = '';
@@ -30,13 +29,7 @@ exports.add = async (req) => {
     if (req.body.PASS !== req.body.REPASS) {
         return "wrong password";
     }
-    req.body.HINHANH = "";
-    req.body.IDHINHANH = "";
-    if (req.file) {
-        const result = await cloudImage.uploadIMG(req.file.path);
-        req.body.HINHANH = result.secure_url;
-        req.body.IDHINHANH = result.public_id;
-    }
+    
     req.body.MANV = await genKeyAccount(req.body.LOAINV);
     req.body.PASS = await bcrypt.hash(req.body.PASS, 10);
     await models.nhanvien.create({
@@ -51,28 +44,11 @@ exports.add = async (req) => {
         EMAIL: req.body.EMAIL,
         SDT: req.body.SDT,
         CCCD: req.body.CCCD,
-        HINHANH: req.body.HINHANH,
-        IDHINHANH: req.body.IDHINHANH,
     });
     return "add success";
 };
 
-exports.saveUpdate = async(req) => {
-    const nhanvien = await models.nhanvien.findOne({where: {MANV: req.params.id}});
-    if(req.file){
-        var result
-        if(nhanvien.IDHINHANH){
-            result = await cloudImage.updateIMG(req.file.path, nhanvien.IDHINHANH);
-        }else{
-            result = await cloudImage.uploadIMG(req.file.path);
-        }
-        req.body.HINHANH = result.secure_url
-        req.body.IDHINHANH = result.public_id
-    }
-    nhanvien.set(req.body)
-    await nhanvien.save()
-}
-genKeyAccount = async (role) => {
+exports.genKeyAccount = async (role) => {
     var accounts = await models.nhanvien.findAll({paranoid: false,});
     var i = 1;
     var check = true;
@@ -139,10 +115,6 @@ exports.binList = (title, page, itemPerPage) => {
 
 exports.destroyDelete = async (manv) => {
   var Nhanvien = await models.nhanvien.findOne({ where: { MANV: manv } ,paranoid: false });
-  var link = Nhanvien.IMAGE_PUBLICID
-    if(link){
-        await cloudImage.deleteIMG(link);
-    }
   return await models.nhanvien.destroy({ 
     where: {MANV : manv},
     force: true,

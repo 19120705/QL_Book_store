@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/tbaby2011/QL_Book_store#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.4",
