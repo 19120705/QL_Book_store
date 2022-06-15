@@ -26,10 +26,14 @@
   "homepage": "https://github.com/tbaby2011/QL_Book_store#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "connect-flash": "^0.1.1",
     "dotenv": "^16.0.1",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.4",
+    "express-session": "^1.17.3",
     "mysql2": "^2.3.3",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
     "sequelize": "^6.20.1"
   },
   "devDependencies": {

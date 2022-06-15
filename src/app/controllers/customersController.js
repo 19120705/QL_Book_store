@@ -1,5 +1,5 @@
 const customerService = require("../services/customersService");
-const pagination = require("../../public/js/pages/pagination");
+//const pagination = require("../../public/js/pages/pagination");
 
 class customerController {
     //[GET]:customers/
@@ -20,7 +20,7 @@ class customerController {
                 Math.ceil(customers.count / itemPerPage) > page + 1
                     ? Math.ceil(customers.count / itemPerPage)
                     : page + 1;
-            const pagItems = pagination.paginationFunc(page + 1, TotalPage);
+            //const pagItems = pagination.paginationFunc(page + 1, TotalPage);
             const counter = await customerService.countBin();
             res.render("customer/editCustomer", {
                 Items: pagItems,
@@ -82,7 +82,7 @@ class customerController {
                 Math.ceil(customers.count / itemPerPage) > page + 1
                     ? Math.ceil(customers.count / itemPerPage)
                     : page + 1;
-            const pagItems = pagination.paginationFunc(page + 1, TotalPage);
+            //const pagItems = pagination.paginationFunc(page + 1, TotalPage);
 
             res.render("customer/binCustomer", {
                 Items: pagItems,

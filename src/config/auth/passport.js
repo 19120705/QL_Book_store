@@ -1,7 +1,7 @@
 const passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
-const {models} = require('../sequelize');
+const {models} = require('../db');
 const bcrypt = require('bcrypt');
 
 passport.use(new LocalStrategy({
@@ -10,12 +10,9 @@ passport.use(new LocalStrategy({
     },
     async function(username, password, done) {
         try {
-            const user = await models.nhanvien.findOne({ where: {USER: username}, raw: true });
+            const user = await models.nhanvien.findOne({ where: {MANV: username}, raw: true });
             if (!user) {
                 return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (user.STATUS !== 'Active') {
-                return done(null, false, { message: 'Account was disalbe.' });
             }
             const match = await validPassword(user, password);
             if (!match) {
