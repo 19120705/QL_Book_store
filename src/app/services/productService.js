@@ -1,6 +1,5 @@
 //const { options, report } = require('.');
-const {models} = require('../../config/sequelize')
-const cloudImage = require('../middlewares/uploadIMG/cloudinary');
+const {models} = require('../../config/db');
 const { Op } = require('sequelize');
 exports.getTL = () =>{
         return models.theloai.findAll({})

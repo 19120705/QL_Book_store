@@ -34,7 +34,7 @@ passport.deserializeUser(function(user, done) {
 });
 
 function validPassword(user, password){
-    return bcrypt.compare(password, user.PASS);
+    return bcrypt.compare(password, user.PASSWORD);
 }
 
 module.exports = passport;

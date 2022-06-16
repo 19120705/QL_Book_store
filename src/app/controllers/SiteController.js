@@ -1,7 +1,7 @@
 // const pagination = require('../../public/js/pages/pagination');
 // const productService = require('../services/productService');
 // const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequelize');
-const e = require('express');
+// const e = require('express');
 
 
 class SiteController{
@@ -9,10 +9,9 @@ class SiteController{
         try {
             if (!req.user) {
                 res.redirect('/login');
-                //res.send("<h1>hello world</h1>")
             }
             else {
-                
+               res.send("<h1>hello world</h1>") 
                     // const itemPerPage = 10;
                     // const page = !isNaN(req.query.page) && req.query.page > 0 ? req.query.page - 1 : 0;
                     // const title = req.query.title
@@ -22,11 +21,11 @@ class SiteController{
                     
     
     
-                    res.render('index', {
-                        Items: pagItems,
-                        products: products.rows,
-                        title: title,
-                    });
+                    // res.render('index', {
+                    //     Items: pagItems,
+                    //     products: products.rows,
+                    //     title: title,
+                    // });
                
             }            
 

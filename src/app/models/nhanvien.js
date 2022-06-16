@@ -6,12 +6,12 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    TenNV: {
+    TENNV: {
         type: DataTypes.STRING(50),
         allowNull: true
       },
-    PASS: {
-      type: DataTypes.STRING(10),
+    PASSWORD: {
+      type: DataTypes.STRING(100),
       allowNull: false
     },
     SDT: {

@@ -1,14 +1,16 @@
-
+const { models } = require("../../config/db");
+const bcrypt = require("bcrypt");
 class authController{
     //[GET]: /logout
-    logout(req, res ){
+    logout (req, res ){
         req.logout();
         res.render('logout', { layout: false });
+        
     }
     
 
     //[GET]: /login 
-    login(req, res) {
+    login = async (req, res) => {
         res.render('login', {
             layout: false,
             message: req.flash()

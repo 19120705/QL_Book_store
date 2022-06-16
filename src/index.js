@@ -44,13 +44,12 @@ app.use(session({ secret: process.env.SESSION_SECRET , resave: true,
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(userOnl)
+app.use(userOnl);
 
 //routes init
 route(app);
 
-
-
 app.listen(port, () => {
+
   console.log(`Example app listening at http://localhost:${port}`);
 })
