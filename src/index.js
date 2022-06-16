@@ -23,7 +23,7 @@ const port = 3000;
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({
-  extended: true
+  extended: false
 }));
 app.use(express.json());
 
