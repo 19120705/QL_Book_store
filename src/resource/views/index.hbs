@@ -1,0 +1,89 @@
+<section>
+<div class="content-page">
+	<div class="content">
+		<div class="container">
+			<div class="book-information">
+				<nav class="navbar navbar-light bg-light">
+				<form action =""  class="form-inline">
+					<input class="form-control mr-sm-2" type="search" name="title" placeholder="Search" aria-label="Search">
+					<button class="btn btn-outline-success my-2 my-sm-0"  type="submit">Search</button>
+				</form>
+				</nav>
+
+				{{#if products}}
+				<div class="mt-4">
+				<div class="row">
+					
+					{{#each products}}
+
+					<div class="col-sm-6 col-lg-4" style = "margin-bottom: 20px;">
+					<input type="hidden" name="masach" value="{{this.masach}}">
+					<div class="card" style=" height:100%">
+						<a href="products/update/{{this.masach}}"></a>
+						<div class="card-top">
+						<img src="{{this.IMAGE}}" class="card-img-top" alt="{{this.tensach}}" style="overflow: hidden; object-fit: contain;" width="300" height="400" />
+						</div>
+
+						<div class="card-body">
+							<div class="card-title">
+							<h4>
+								{{this.tensach}}
+							</h4>
+							</div>
+							<p class="card-text">{{this.gia}}</p>
+							<p class="card-text"></p>
+						</div>
+						</a>
+						<div class="card-footer">
+							<button value="{{this.masach}}" class="cart_selection btn btn-primary">Add to cart</button>
+						</div>
+						</div>
+					
+					
+					</div>
+
+
+					{{/each}}
+
+				</div>
+				</div>
+				
+							<div style="margin-top: 30px " >
+								<ul class="pagination justify-content-end">
+									{{#each Items}}
+									<li class="page-item{{#if cur}} active{{/if}}"><a class="page-link"
+											href="?title={{../title}}&&page={{item}}">{{item}}</a></li>
+									{{/each}}
+								</ul>
+                        	</div>
+				{{else}}
+					<h1>Không tồn tại</h1>
+				{{/if}}
+				
+
+	</div> <!-- content -->
+</div>
+</section>
+			<!-- ============================================================== -->
+            <!-- End Page content -->
+            <!-- ============================================================== -->
+{{#section 'script'}}
+    <script>
+		$(".cart_selection").on('click',function () {
+			var masach = $(this).val()
+			
+				$.ajax({
+				url: '/cart/add',
+				type: 'POST',
+				data: {
+					
+					masach: masach,
+				},
+				success: function (data) {
+					alert(data.message)
+				}
+			});
+		});
+
+	</script>
+{{/section}}

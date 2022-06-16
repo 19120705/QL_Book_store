@@ -63,9 +63,10 @@
                             data-page-size="7">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>User</th>
+                                    <th>MANV</th>
                                     <th>Full name</th>
+                                    <th>SEX</th>
+                                    <th>ADDRESS</th>
                                     <th>Email</th>
                                     <th>Number phone</th>
                                     <th rowspan="2">Edit</th>
@@ -75,8 +76,9 @@
                                 {{#each accounts}}
                                 <tr>
                                     <td>{{this.MANV}}</td>
-                                    <td>{{this.USER}}</td>
-                                    <td>{{this.HOTEN}}</td>
+                                    <td>{{this.TENNV}}</td>
+                                    <td>{{this.GIOITINH}}</td>
+                                    <td>{{this.DIACHI}}</td>
                                     <td>{{this.EMAIL}}</td>
                                     <td>{{this.SDT}}</td>
                                     <td>
@@ -183,11 +185,6 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="username">User name</label>
-                                <input class="form-control" type="user" name="USER" required
-                                    placeholder="Enter user name">
-                            </div>
-                            <div class="form-group">
                                 <label for="password">Password</label>
                                 <input class="form-control password" type="password" required id="password" name="PASS"
                                     placeholder="Enter your password" onkeyup="checkPass()">
@@ -204,22 +201,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="username">Name</label>
-                                <input class="form-control" type="text" name="HOTEN" required placeholder="Enter name">
+                                <input class="form-control" type="text" name="TENNV" required placeholder="Enter name">
                             </div>
                             <div class="form-group">
                                 <label for="PHAI">Sex</label><br>
-                                <select class="form-select" name="PHAI">
-                                    <option selected value="NAM">male </option>
-                                    <option value="NU">female </option>
+                                <select class="form-select" name="GIOITINH">
+                                    <option selected value="NAM">Male </option>
+                                    <option value="NU">Female </option>
+                                    <option value="KHAC">Other</option>
                                 </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Birth date</label>
-                                <input class="form-control" type="date" name="NGAYSINH" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Images avatar</label>
-                                <input class="form-control" type="file" name="image" required>
                             </div>
                             <div class="form-group">
                                 <label for="username">Address</label>
@@ -230,11 +220,6 @@
                                 <label for="username">Email</label>
                                 <input class="form-control" type="text" name="EMAIL" required
                                     placeholder="Enter user Email">
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Citizen identity card</label>
-                                <input class="form-control" type="text" name="CCCD" required
-                                    placeholder="Enter user CIC">
                             </div>
                             <div class="form-group">
                                 <label for="username">Number phone</label>

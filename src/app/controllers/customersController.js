@@ -23,7 +23,7 @@ class customerController {
             //const pagItems = pagination.paginationFunc(page + 1, TotalPage);
             const counter = await customerService.countBin();
             res.render("customer/editCustomer", {
-                Items: pagItems,
+                //Items: pagItems,
                 customers: customers.rows,
                 message: req.query.message,
                 counter,

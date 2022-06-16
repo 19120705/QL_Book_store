@@ -9,7 +9,7 @@ exports.list = (title, page, itemPerPage) => {
     }
     return models.nhanvien.findAndCountAll({
         where: {
-          USER :{
+          MANV :{
               [Op.like]: '%' + condition + '%',
           }
         },
@@ -20,12 +20,6 @@ exports.list = (title, page, itemPerPage) => {
 };
 
 exports.add = async (req) => {
-    const account = await models.nhanvien.findOne({
-        where: { USER: req.body.USER },
-    });
-    if (account) {
-        return "exist user name";
-    }
     if (req.body.PASS !== req.body.REPASS) {
         return "wrong password";
     }
@@ -33,16 +27,13 @@ exports.add = async (req) => {
     req.body.PASS = await bcrypt.hash(req.body.PASS, 10);
     await models.nhanvien.create({
         MANV: req.body.MANV,
-        HOTEN: req.body.HOTEN,
-        NGAYSINH: req.body.NGAYSINH,
-        USER: req.body.USER,
-        PASS: req.body.PASS,
-        LOAINV: req.body.LOAINV,
+        TENNV: req.body.TENNV,
+        PASSWORD: req.body.PASS,
         DIACHI: req.body.DIACHI,
-        PHAI: req.body.PHAI,
+        GIOITINH: req.body.GIOITINH,
         EMAIL: req.body.EMAIL,
         SDT: req.body.SDT,
-        CCCD: req.body.CCCD,
+        LOAINV: req.body.LOAINV,
     });
     return "add success";
 };
@@ -101,7 +92,7 @@ exports.binList = (title, page, itemPerPage) => {
             deletedAt: {
                 [Op.ne]: null,
             },
-            USER :{
+            MANV :{
                 [Op.like]: '%' + condition + '%',
             }
         },
@@ -134,7 +125,7 @@ exports.getInfor= async (manv) =>{
 
 exports.resetPass = async (manv) =>{
     const nhanvien =  await models.nhanvien.findOne({ where: { MANV: manv }, raw : true});
-    var password = await bcrypt.hash(nhanvien.EMAIL, 10)
+    var password = await bcrypt.hash(nhanvien.SDT, 10)
     await models.nhanvien.update({PASS : password},
                                  { where: { MANV: manv }});
 }

@@ -14,6 +14,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(100),
       allowNull: false
     },
+    DIACHI: {
+      type: DataTypes.STRING(200),
+      allowNull: false
+    },
+    GIOITINH: {
+      type: DataTypes.STRING(4),
+      allowNull: false
+    },
+    EMAIL: {
+      type: DataTypes.STRING(30),
+      allowNull: false
+    },
     SDT: {
       type: DataTypes.STRING(10),
       allowNull: true

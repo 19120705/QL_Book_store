@@ -11,7 +11,6 @@ class SiteController{
                 res.redirect('/login');
             }
             else {
-               res.send("<h1>hello world</h1>") 
                     // const itemPerPage = 10;
                     // const page = !isNaN(req.query.page) && req.query.page > 0 ? req.query.page - 1 : 0;
                     // const title = req.query.title
@@ -21,11 +20,11 @@ class SiteController{
                     
     
     
-                    // res.render('index', {
-                    //     Items: pagItems,
-                    //     products: products.rows,
-                    //     title: title,
-                    // });
+                    res.render('./home', {
+                        //Items: pagItems,
+                        //products: products.rows,
+                        //title: title,
+                    });
                
             }            
 

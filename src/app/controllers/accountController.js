@@ -1,5 +1,5 @@
 const accountService = require("../services/accountService");
-//const pagination = require("../../public/js/pages/pagination");
+const pagination = require("../../public/js/pages/pagination");
 
 class AccountController {
     //[GET]:accounts/
