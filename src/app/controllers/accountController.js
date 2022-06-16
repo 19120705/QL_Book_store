@@ -55,6 +55,7 @@ class AccountController {
     async delete(req, res, next) {
         try {
             if (req.user) {
+                //xOA TAI KHOAN
                 await accountService.softDelete(req);
                 res.redirect("/accounts");
             } else {
