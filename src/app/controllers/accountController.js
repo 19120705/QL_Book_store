@@ -55,17 +55,14 @@ class AccountController {
     async delete(req, res, next) {
         try {
             if (req.user) {
-                //xOA TAI KHOAN
+                //XOA TAI KHOAN
                 await accountService.softDelete(req);
-                //asdasdas
-                console.log("nonoo");
                 res.redirect("/accounts");
-                //asdasdasdaadfdsfadfhfafasd
             } else {
                 res.redirect("/");
             }
         } catch (error) {
-            next(error);
+            next(error)
         }
     }
     //[GET]:accounts/recyclebin
