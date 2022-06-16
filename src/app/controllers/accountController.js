@@ -57,7 +57,10 @@ class AccountController {
             if (req.user) {
                 //xOA TAI KHOAN
                 await accountService.softDelete(req);
+                //asdasdas
+                console.log("nonoo");
                 res.redirect("/accounts");
+                //asdasdasd
             } else {
                 res.redirect("/");
             }
