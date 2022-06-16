@@ -60,7 +60,7 @@ class AccountController {
                 //asdasdas
                 console.log("nonoo");
                 res.redirect("/accounts");
-                //asdasdasd
+                //asdasdasdaadfdsf
             } else {
                 res.redirect("/");
             }
