@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 const { query } = require('express');
 const flash = require('connect-flash');
+const methodOverride = require('method-override');
 
 const route=require('./routes');
 const db=require('./config/db');
@@ -38,6 +39,7 @@ app.set('view engine', 'hbs');
 app.set('views',path.join(__dirname, 'resource','views'));
 
 //check password login
+app.use(methodOverride('_method'));
 const session = require('express-session');
 app.use(session({ secret: process.env.SESSION_SECRET , resave: true,
   saveUninitialized: true }));

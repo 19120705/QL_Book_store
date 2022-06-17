@@ -3,12 +3,13 @@ const bcrypt = require("bcrypt");
 class authController{
     //[GET]: /logout
     logout (req, res ){
-        req.logout();
+        req.logout(function(err) {
+            if (err) { return next(err); }
+            res.render('logout', { layout: false });
+          });
         res.render('logout', { layout: false });
         
     }
-    
-
     //[GET]: /login 
     login = async (req, res) => {
         res.render('login', {

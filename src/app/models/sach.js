@@ -23,11 +23,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     LOAISACH: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING(4),
         allowNull: true,
         references: {
             model: 'loaisach',
-            key: 'MaLoai'
+            key: 'MALOAI',
           }
     }
   }, {
@@ -48,7 +48,7 @@ module.exports = function(sequelize, DataTypes) {
         name: "FK_SACH_LOAISACH",
         using: "BTREE",
         fields: [
-          { name: "MaLoai" },
+          { name: "LOAISACH" },
         ]
       },
     ]
