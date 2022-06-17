@@ -189,9 +189,9 @@
         var deleteConfirm = document.querySelector('.btn-delete-customer')
         for (const deleteBtn of deleteBtns) {
             deleteBtn.onclick = function (e) {
-                var customer = this.getAttribute('data-customerid')// khi onclick vào button xóa của khóa học nào thì sẽ nhận được id của khóa học đó
+                var customer = this.getAttribute('data-customerid')// khi onclick vào button xóa của Customer nào thì sẽ nhận được id của Customer đó
                 deleteConfirm.onclick = function (e) {  // sau đó click vào button confirm xóa để 
-                    deleteForm.action = `/customers/${customer}/del?_method=DELETE`; // truyền  url chứa id của từng khóa học vào action và với method DELETE
+                    deleteForm.action = `/customers/${customer}/del?_method=DELETE`; // truyền  url chứa id của từng Customer vào action và với method DELETE
                     deleteForm.submit(); // và submit form .
                 }
             }

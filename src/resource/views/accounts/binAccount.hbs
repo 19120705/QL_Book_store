@@ -229,9 +229,9 @@
         var deleteConfirm = document.querySelector('.btn-delete-account')
         for (const deleteBtn of deleteBtns) {
             deleteBtn.onclick = function (e) {
-                var account = this.getAttribute('data-accountid')// khi onclick vào button xóa của khóa học nào thì sẽ nhận được id của khóa học đó
+                var account = this.getAttribute('data-accountid')// khi onclick vào button xóa của account nào thì sẽ nhận được id của account đó
                 deleteConfirm.onclick = function (e) {  // sau đó click vào button confirm xóa để 
-                    deleteForm.action = `/accounts/${account}/destroy?_method=DELETE`; // truyền  url chứa id của từng khóa học vào action và với method DELETE
+                    deleteForm.action = `/accounts/${account}/destroy?_method=DELETE`; // truyền  url chứa id của từng account vào action và với method DELETE
                     deleteForm.submit(); // và submit form .
                 }
             }
@@ -243,8 +243,8 @@
         for (const restoreBtn of restoreBtns) {
             restoreBtn.onclick = function (e) {
                 e.preventDefault();
-                var account = this.getAttribute('data-accountid')// khi onclick vào button xóa của khóa học nào thì sẽ nhận được id của khóa học đó        
-                restoreForm.action = `/accounts/${account}/restore?_method=PATCH`; // truyền  url chứa id của từng khóa học vào action và với method DELETE
+                var account = this.getAttribute('data-accountid')// khi onclick vào button xóa của account nào thì sẽ nhận được id của account đó        
+                restoreForm.action = `/accounts/${account}/restore?_method=PATCH`; // truyền  url chứa id của từng account vào action và với method DELETE
                 restoreForm.submit(); // và submit form .
                 
             }
