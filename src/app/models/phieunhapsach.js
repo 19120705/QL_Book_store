@@ -6,7 +6,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    NhanVienNhap: {
+    NHANVIENNHAP: {
         type: DataTypes.STRING(6),
         allowNull: true,
         references: {
@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
           key: 'MANV'
         }
     },
-    NGAYNHAP: {
+    NGAYNHAPSACH: {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
         name: "FK_PHIEUNS_NHANVIEN",
         using: "BTREE",
         fields: [
-          { name: "MANV" },
+          { name: "NHANVIENNHAP" },
         ]
       },
     ]

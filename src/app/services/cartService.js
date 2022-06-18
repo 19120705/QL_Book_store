@@ -1,4 +1,4 @@
-const { models } = require("../../config/sequelize");
+const { models } = require("../../config/db");
 const { Op } = require("sequelize");
 
 exports.getSachs = async() => {

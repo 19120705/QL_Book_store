@@ -27,7 +27,9 @@ function initModels(sequelize) {
 
   sach.belongsTo(loaisach, {foreignKey: "LOAISACH", targetKey: 'MALOAI'});
   loaisach.hasMany(sach, {foreignKey: "LOAISACH", sourceKey: 'MALOAI'});
-  
+  phieunhapsach.belongsTo(nhanvien, {foreignKey: "NHANVIENNHAP", targetKey: 'MANV'});
+  nhanvien.hasMany(phieunhapsach, {foreignKey: "NHANVIENNHAP", sourceKey: 'MANV'});
+
   return {
     ct_hoadon,
     ct_phieunhap,

@@ -38,7 +38,7 @@ exports.genKeybook = async () => {
       check = true;
       s_key = str + i;
       for (let index = 0; index < books.length; index++) {
-        if (books[index]['masach'] === s_key) {
+        if (books[index]['MASACH'] === s_key) {
           check = false;
           break;
         }
@@ -65,6 +65,9 @@ exports.store = async(req) => {
 }
 exports.update = (req) => {
     return models.sach.findOne({
+        include: [{
+          model: models.loaisach,
+        }],
         where: {
             MASACH: req.params.id
         },
@@ -73,10 +76,11 @@ exports.update = (req) => {
 exports.saveUpdate = async(req) => {
     const book = await models.sach.findOne({where: {MASACH: req.params.id}});
 
-    if (req.body.category) {
-      req.body.category.forEach(async (element) => {
-      });
-    }
+    // if (req.body.category) {
+    //   req.body.category.forEach(async (element) => {
+    //   });
+    // }
+    req.body.LUONGTON = book.LUONGTON;
     book.set(req.body)
     await book.save()
 }
@@ -98,7 +102,3 @@ exports.getBooks = (title) => {
       },
     });
   };
-
-exports.catofbook = (req) => {
-  return models.loaisach.findAll({where: { MASACH : req.params.id} , raw: true})
-}

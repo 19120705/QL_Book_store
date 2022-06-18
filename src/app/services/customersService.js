@@ -140,7 +140,7 @@ exports.getInfor = async (makh) => {
 };
 
 exports.updateSave = async (req) => {
-    const Khang = await models.khachhang.findOne({where: {MAKH: req.params.id}});
-    Khang.set(req.body)
-    await Khang.save()
+    const KhachHang = await models.khachhang.findOne({where: {MAKH: req.params.id}});
+    KhachHang.set(req.body)
+    await KhachHang.save()
 }

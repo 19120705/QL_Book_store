@@ -45,16 +45,6 @@
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01">Giới
-                                    tính</label>
-                            </div>
-                            <select class="custom-select" name="PHAI" id="inputGroupSelect01"="">
-                                <option value="NAM">Nam</option>
-                                <option value="NU">Nữ</option>
-                            </select>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
                                 <span class="input-group-text" id="inputGroup-sizing-default">Số
                                     điện thoại</span>
                             </div>
@@ -68,17 +58,6 @@
                             </div>
                             <input name="DIACHI" type="text" class="form-control"
                                 aria-describedby="inputGroup-sizing-default" value="{{admin.DIACHI}}" />
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="inputGroup-sizing-default">Ngày
-                                    sinh</span>
-                            </div>
-                            <input name="NGAYSINH" type="date" class="form-control"
-                                aria-describedby="inputGroup-sizing-default" value="{{admin.NGAYSINH}}" />
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
                         </div>
                         <div class="d-flex justify-content-center align-items-end text-center">
                             <button type="submit" class = "btn-submit" style="
@@ -102,25 +81,7 @@
                     </li>
                 </form>
             </ul>
-            <button class="float-left md-4 mt-auto mb-auto mr-4 btn-submit" style="background-color: #44c767;
-            border-radius: 28px; border: 1px solid #18ab29;">
-                <a href="#" class="btn btn-link">
-                    Lập hóa đơn
-                </a>
-            </button>
-            <button class="float-right md-4 mt-auto mb-auto mr-4 btn-submit" style="background-color: #44c767;
-            border-radius: 28px; border: 1px solid #18ab29;">
-                <a href="#" class="btn btn-link">
-                    Ghi Nợ
-                </a>
-            </button>
         </div>
         <!-- End Form Edit Product -->
     </div>
 </div>
-
-
-<script>
-    var sexEl = document.getElementById("inputGroupSelect01");
-    sexEl.value = "{{admin.PHAI}}";
-</script>

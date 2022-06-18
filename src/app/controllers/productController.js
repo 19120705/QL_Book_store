@@ -33,7 +33,7 @@ class productController{
             if(req.user.LOAINV != 'emp') {
                 try {
                     await productService.saveUpdate(req);
-                    res.redirect('back');
+                    res.redirect('/products');
                 } catch (error) {
                     next(error);
                 }
@@ -46,12 +46,11 @@ class productController{
     async update(req, res, next){
         if(req.user){
             if(req.user.LOAINV != 'emp') {
-                const product = await productService.update(req)
-                const mytheloai = await productService.catofbook(req);
+                const product = await productService.update(req);
                 const Theloai = await productService.getTL();
                 
                 res.render('products/formUpdatePro', { product : SequelizeToObject(product),
-                     Theloai: multipleSequelizeToObject(Theloai), mytheloai
+                     Theloai: multipleSequelizeToObject(Theloai),
                  });
             } 
         } else{
@@ -81,7 +80,6 @@ class productController{
                 const page = !isNaN(req.query.page) && req.query.page > 0 ? req.query.page - 1 : 0;
                 const title = req.query.title
                 const products = await productService.list(title,page,itemPerPage);
-                console.log(products);
                 const Theloai = await productService.getTL();
                 const TotalPage = Math.ceil(products.count/itemPerPage) > page + 1 ? Math.ceil(products.count/itemPerPage) : page + 1
                 const pagItems = pagination.paginationFunc(page+1, TotalPage);

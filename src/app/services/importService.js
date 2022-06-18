@@ -1,4 +1,4 @@
-const {models, sequelize} = require('../../config/sequelize')
+const {models, sequelize} = require('../../config/db')
 const { Op } = require("sequelize");
 
 exports.list = (title,Month,page, itemPerPage) => {
@@ -10,17 +10,20 @@ exports.list = (title,Month,page, itemPerPage) => {
     if (Month){
         secondCondition=Month.split('-');
     }
-    return models.phieunhap.findAndCountAll({
+    return models.phieunhapsach.findAndCountAll({
+        include: [{
+            model: models.nhanvien,
+        }],
         where: {
             [Op.and]: [
                 {
                     [Op.and]: [
-                        sequelize.where(sequelize.fn('YEAR', sequelize.col('`phieunhap`.`NGAYNHAP`')), secondCondition[0]),
-                        sequelize.where(sequelize.fn('MONTH', sequelize.col('`phieunhap`.`NGAYNHAP`')), secondCondition[1])
+                        sequelize.where(sequelize.fn('YEAR', sequelize.col('`phieunhapsach`.`NGAYNHAPSACH`')), secondCondition[0]),
+                        sequelize.where(sequelize.fn('MONTH', sequelize.col('`phieunhapsach`.`NGAYNHAPSACH`')), secondCondition[1])
                     ]
                 },
                 {
-                    MAPN: {
+                    MAPNS: {
                         [Op.like]: "%" + condition + "%",
                     },
                 },
@@ -36,10 +39,10 @@ exports.add = async(req) => {
     try {
         await sequelize.transaction(async (t) => {
             let date=new Date;
-            const phieunhap = await models.phieunhap.create({
+            const phieunhap = await models.phieunhapsach.create({
                 
-                MAPN: req.body.MAPN,
-                NGAYNHAP : date,
+                MAPNS: req.body.MAPNS,
+                NGAYNHAPSACH : date,
                 MANV : req.user.MANV,
             
             }, {transaction: t});

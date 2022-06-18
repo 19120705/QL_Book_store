@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('quydinh', {
     SoLuongNhapMin: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: false,
+      primaryKey: true
     },
     LuongTonMinTruocNhap: {
       type: DataTypes.INTEGER,
@@ -21,7 +22,14 @@ module.exports = function(sequelize, DataTypes) {
     sequelize,
     tableName: 'quydinh',
     timestamps: false,
-    indexes: [
+    indexes:[{
+      name: "PRIMARY",
+      unique: true,
+      using: "BTREE",
+      fields: [
+        { name: "SoLuongNhapMin" },
+      ]
+    }
     ]
   });
 };

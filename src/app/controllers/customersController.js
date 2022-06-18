@@ -141,7 +141,7 @@ class customerController {
         try {
             if (req.user) {
                 await customerService.updateSave(req);
-                res.redirect("back");
+                res.redirect("/customers");
             } else {
                 res.redirect("/");
             }

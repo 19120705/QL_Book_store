@@ -129,3 +129,8 @@ exports.resetPass = async (manv) =>{
     await models.nhanvien.update({PASS : password},
                                  { where: { MANV: manv }});
 }
+exports.updateSave = async (req) => {
+    const NhanVien = await models.nhanvien.findOne({where: {MANV: req.params.id}});
+    NhanVien.set(req.body)
+    await NhanVien.save()
+}

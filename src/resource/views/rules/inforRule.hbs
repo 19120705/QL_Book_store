@@ -1,0 +1,72 @@
+<div class="content-page">
+    <div class="content">
+
+        <!-- Form Edit Product -->
+        <div class="">
+            <ul class="list-group list-group-flush">
+                <div class="container-fluid">
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="page-title-box">
+                                <h4 class="page-title">Rules</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end page title -->
+
+                    <div class="row d-flex justify-content-around">
+                        <div class="col-8">
+                            <form action="/rule/edit?_method=put" method="post">
+                                <li class="list-group-item row">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text mb-1"
+                                                id="inputGroup-sizing-default">Số lượng nhập tối thiểu</span>
+                                        </div>
+                                        <input name="SoLuongNhapMin" type="number" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default"
+                                            value="{{rules.SoLuongNhapMin}}"/>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Lượng tồn kho tối thiểu trước khi nhập</span>
+                                        </div>
+                                        <input name="LuongTonMinTruocNhap" type="number" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default" value="{{rules.LuongTonMinTruocNhap}}"/>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Tiền nợ tối đa</span>
+                                        </div>
+                                        <input name="TienNoMax" type="number" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default" value="{{rules.TienNoMax}}"/>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Lượng tồn kho tối thiểu sau khi bán</span>
+                                        </div>
+                                        <input name="LuongTonMinSauBan" type="number" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default"
+                                            value="{{rules.LuongTonMinSauBan}}"/>
+                                    </div>
+                                    <div class="input-group">
+                                        <input type="submit" class="btn btn-info" value="Confirm">
+                                    </div>
+                                </li>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </ul>
+        </div>
+        <!-- End Form Edit Product -->
+    </div>
+</div>
+
+<script>
+
+</script>

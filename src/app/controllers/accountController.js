@@ -141,10 +141,8 @@ class AccountController {
     async update(req, res, next) {
         try {
             if (req.user) {
-                await accountService.saveUpdate(req);
-                if ((req.user.MANV = req.params.id)) {
-                    res.redirect("/logout");
-                } else res.redirect("back");
+                await accountService.updateSave(req);
+                res.redirect("/accounts");
             } else {
                 res.redirect("/");
             }
