@@ -1,4 +1,4 @@
-const {models, sequelize}  = require("../../config/sequelize");
+const {models, sequelize}  = require("../../config/db");
 const { Op } = require("sequelize");
 
 
@@ -15,27 +15,27 @@ exports.list = (title,Month,page, itemPerPage,MANV) => {
     if(MANV.slice(0,3) == 'emp'){
         manvcondition = MANV
     }
-    return models.phieumua.findAndCountAll({
+    return models.hoadonbansach.findAndCountAll({
         where: { 
-            [Op.and]:[{
-                [Op.and]: [
-                    {
-                        [Op.and]: [
-                            sequelize.where(sequelize.fn('YEAR', sequelize.col('`phieumua`.`NGAYMUA`')), secondCondition[0]),
-                            sequelize.where(sequelize.fn('MONTH', sequelize.col('`phieumua`.`NGAYMUA`')), secondCondition[1])
-                        ]
-                    },
-                    {
-                        MAPM: {
-                            [Op.like]: "%" + condition + "%",
-                        },
-                    },
-                ],
-            },{
-                MANV:{
-                    [Op.like]: "%" + manvcondition + "%",
-                }
-            }]
+            // [Op.and]:[{
+            //     [Op.and]: [
+            //         {
+            //             [Op.and]: [
+            //                 sequelize.where(sequelize.fn('YEAR', sequelize.col('`hoadonbansach`.`NGAYLAPHOADON`')), secondCondition[0]),
+            //                 sequelize.where(sequelize.fn('MONTH', sequelize.col('`hoadonbansach`.`NGAYLAPHOADON`')), secondCondition[1])
+            //             ]
+            //         },
+            //         {
+            //             MAHD: {
+            //                 [Op.like]: "%" + condition + "%",
+            //             },
+            //         },
+            //     ],
+            // },{
+            //     MANV:{
+            //         [Op.like]: "%" + manvcondition + "%",
+            //     }
+            // }]
         },
             offset: page * itemPerPage,
             limit: itemPerPage,
@@ -47,48 +47,57 @@ exports.add = async(req) => {
     try {
         await sequelize.transaction(async (t) => {
             let date=new Date;
-            const phieumua = await models.phieumua.create({
+            const hoadonbansach = await models.hoadonbansach.create({
                 MAKH: req.body.MAKH,
-                MAPM: req.body.MAPM,
-                NGAYMUA : date,
+                MAHD: req.body.MAHD,
+                NGAYLAPHOADON : date,
                 MANV : req.user.MANV,
             
             }, {transaction: t});
-            if (!Array.isArray(req.body.masach)) {
-                await models.ct_phieumua.create({
-                    MAPM: req.body.MAPM,
-                    MASACH: req.body.masach,
-                    SL: req.body.SL
+            if (!Array.isArray(req.body.MASACH)) {
+                await models.ct_hoadon.create({
+                    MAHD: req.body.MAHD,
+                    MASACH: req.body.MASACH,
+                    SOLUONG: req.body.SOLUONG,
+                    DONGIA: req.body.DONGIA
                 }, {transaction: t})
             }
             else {
-                for (var i = 0; i < req.body.masach.length; i++) {
-                    await models.ct_phieumua.create({
-                        MAPM: req.body.MAPM,
-                        MASACH: req.body.masach[i],
-                        SL: req.body.SL[i]
+                for (var i = 0; i < req.body.MASACH.length; i++) {
+                    await models.ct_hoadon.create({
+                        MAHD: req.body.MAHD,
+                        MASACH: req.body.MASACH[i],
+                        SOLUONG: req.body.SOLUONG[i],
+                        DONGIA: req.body.DONGIA[i]
                     }, {transaction: t})
                 }
             }
+            let TongTien = await models.ct_hoadon.sum('DONGIA',{where:{MAHD:req.body.MAHD}});
+            await models.hoadonbansach.update({TONGTIEN : TongTien},{ where: { MAHD: req.body.MAHD }});
+            await models.tonno.create({
+                MAKH: req.body.MAKH,
+                NgayThang : date,
+                SoNo : TongTien
+            })
         })
         return true
     } catch (err) {
         console.log('queries failed', err);
     }
 }
-exports.getInfor = async (MAPM) =>{
-    return await models.phieumua.findOne({ where: { MAPM: MAPM } , raw : true});
+exports.getInfor = async (MAHD) =>{
+    return await models.hoadonbansach.findOne({ where: { MAHD: MAHD } , raw : true});
 }
-exports.getBillDetail = async (MAPM, title, page, itemPerPage) => {
+exports.getBillDetail = async (MAHD, title, page, itemPerPage) => {
     var condition = '';
     if (title) {
       condition = title;
     }
-    return await models.ct_phieumua.findAndCountAll(
+    return await models.ct_hoadon.findAndCountAll(
         {where: {
             [Op.and]: [
                 {
-                    MAPM: MAPM
+                    MAHD: MAHD
                 },
                 {
                     MASACH: {
@@ -104,14 +113,14 @@ exports.getBillDetail = async (MAPM, title, page, itemPerPage) => {
 }
 exports.getBooks = async (MASACH) => {
     return await models.sach.findAll({ 
-        where: { masach: MASACH },
+        where: { MASACH: MASACH },
         include: [{
-            model: models.theloaiofsach, 
-            as: 'theloaiofsaches',
-            include: [{
-                model: models.theloai,
-                as: 'maTL_theloai'
-            }]
+            model: models.loaisach, 
+            as: 'sach_loaisach'
+            // include: [{
+            //     model: models.loaisach,
+            //     as: 'MaLoai'
+            // }]
         }],
         raw : true});
     
@@ -120,13 +129,13 @@ exports.getBookInfor = async (books_rows) => {
     for (let book of books_rows) {
         book.THELOAI = ""
         const sach = await this.getBooks(book.MASACH)
-        book.TENSACH = sach[0].tensach
-        book.GIA = sach[0].gia
+        book.TENSACH = sach[0].TENSACH
+        book.DONGIA = sach[0].DONGIA
         sach.forEach(theloai => {
-            book.THELOAI += theloai['theloaiofsaches.maTL_theloai.tenTL']
-            if (theloai != sach[sach.length - 1]) {
-                book.THELOAI += ', '
-            }
+            book.LOAISACH = theloai['sach_loaisach.TENLOAI']
+            // if (theloai != sach[sach.length - 1]) {
+            //     book.LOAISACH += ', '
+            // }
         });        
     }
     return books_rows;
@@ -135,8 +144,8 @@ exports.getEmp = async (nvID) =>{
     return await models.nhanvien.findOne({where: {MANV: nvID}, raw : true})
 }
 
-exports.genKeyPM = async () => {
-    var order = await models.phieumua.findAll({});
+exports.genKeyHD = async () => {
+    var order = await models.hoadonbansach.findAll({});
     var i = 1;
     var check = true;
     var str;
@@ -148,7 +157,7 @@ exports.genKeyPM = async () => {
       }
       s_key = str;
       for (let index = 0; index < order.length; index++) {
-        if (order[index]['MAPM'] === s_key) {
+        if (order[index]['MAHD'] === s_key) {
           check = false;
           break;
         }

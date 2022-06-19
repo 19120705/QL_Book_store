@@ -1,14 +1,10 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('hoadon', {
+  return sequelize.define('hoadobansach', {
     MAHD: {
       type: DataTypes.STRING(6),
       allowNull: false,
       primaryKey: true,
-      references: {
-        model: 'hoadon',
-        key: 'MAHD'
-      }
     },
     TONGTIEN: {
         type: DataTypes.INTEGER,
@@ -36,8 +32,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     sequelize,
-    tableName: 'ct_hoadon',
-    hasTrigger: true,
+    tableName: 'hoadonbansach',
     timestamps: false,
     indexes: [
       {

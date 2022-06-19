@@ -55,11 +55,11 @@
                             <thead>
                                 <tr>
                                     <th>MANV</th>
-                                    <th>Full name</th>
-                                    <th>SEX</th>
-                                    <th>ADDRESS</th>
+                                    <th>Họ tên</th>
+                                    <th>Giới tính</th>
+                                    <th>Địa chỉ</th>
                                     <th>Email</th>
-                                    <th>Number phone</th>
+                                    <th>Số điện thoại</th>
                                     <th rowspan="2">Edit</th>
                                 </tr>
                             </thead>
@@ -67,8 +67,9 @@
                                 {{#each accounts}}
                                 <tr>
                                     <td>{{this.MANV}}</td>
-                                    <td>{{this.USER}}</td>
-                                    <td>{{this.HOTEN}}</td>
+                                    <td>{{this.TENNV}}</td>
+                                    <td>{{this.GIOITINH}}</td>
+                                    <td>{{this.DIACHI}}</td>
                                     <td>{{this.EMAIL}}</td>
                                     <td>{{this.SDT}}</td>
                                     <td>
