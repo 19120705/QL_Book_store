@@ -23,7 +23,7 @@ const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequel
             if(req.user.LOAINV == 'adm') {
                 try {
                     await rulesService.updateSave(req);
-                    res.redirect('back');
+                    res.redirect("/rule");
                 } catch (error) {
                     next(error)
                 }

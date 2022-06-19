@@ -40,8 +40,8 @@ class customerController {
                 const customer = await customerService.add(req);
                 var message;
                 if (customer) {
-                    message = "add success";
-                } else message = "add fail";
+                    message = "Success";
+                } else message = "Failed";
                 res.redirect("/customers?message=" + message);
             } else {
                 res.redirect("/");
@@ -54,7 +54,6 @@ class customerController {
     //[DELETE]:customers/:id/del
     async delete(req, res, next) {
         try {
-            console.log("adadffsf");
             if (req.user) {
                 await customerService.softDelete(req);
                 res.redirect("/customers");
