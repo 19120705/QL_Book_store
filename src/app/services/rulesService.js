@@ -1,9 +1,10 @@
-const {models} = require('../../config/sequelize')
+const {models} = require('../../config/db')
 
 exports.getRules = async () => {
-    return await models.rules.findOne({
-        where: {Locker: 'X'},
-        raw: true
+    return await models.quydinh.findOne({
+        where:{} 
+        //{Locker: 'X'},
+        // raw: true
     })
 }
 

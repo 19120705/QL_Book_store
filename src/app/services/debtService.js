@@ -1,4 +1,4 @@
-const { models } = require("../../config/sequelize");
+const { models } = require("../../config/db");
 const { Op } = require("sequelize");
 
 exports.list = (title, Month, page, itemPerPage) => {

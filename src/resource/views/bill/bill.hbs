@@ -55,9 +55,9 @@
                             data-page-size="7">
                             <thead>
                                 <tr>
-
-                                    <th>Mã phiếu</th>
+                                    <th>Mã đơn</th>
                                     <th>Ngày bán</th>
+                                    <th>Tổng tiền</th>
                                     <th>Mã khách hàng</th>
 									<th>Mã nhân viên</th>
                                     <th>Xem thêm</th>
@@ -66,12 +66,13 @@
                             <tbody>
                                 {{#each bill}}
                                 <tr>
-                                    <td>{{this.MAPM}}</td>
-                                    <td>{{this.NGAYMUA}}</td>
+                                    <td>{{this.MAHD}}</td>
+                                    <td>{{this.NGAYLAPHOADON}}</td>
+                                    <td>{{this.TONGTIEN}}</td>
                                     <td>{{this.MAKH}}</td>
 									<td>{{this.MANV}}</td>
                                     <td>
-                                        <a href="bill/view/{{this.MAPM}}" class="edit btn btn-link">
+                                        <a href="bill/view/{{this.MAHD}}" class="edit btn btn-link">
                                             <i class="material-icons" data-toggle="tooltip" title="View">&#xE8A0;</i>
                                         </a>
                                     </td>
