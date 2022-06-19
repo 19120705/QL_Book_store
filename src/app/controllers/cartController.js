@@ -1,6 +1,8 @@
 var Cart = require("../models/cart");
-const cartservice = require("../services/cartService");
+const cartService = require("../services/cartService");
 const rulesService = require("../services/rulesService");
+const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequelize');
+
 class cartController {
     //[GET]: /cart
     async cartList(req, res, next) {
@@ -8,7 +10,14 @@ class cartController {
             try {
                 var emp = req.user.LOAINV === "emp";
                 const min = await rulesService.getMinQuantity(emp);
-                res.render("cart/cart", { min });
+                const carts = await cartService.list();
+                const sach = await cartService.getBooks();
+                const mapns = req.params.id;
+                res.render("cart/cart", { min, 
+                    carts: carts.rows, 
+                    sach: multipleSequelizeToObject(sach),
+                    mapns: mapns,
+                });
             } catch (error) {
                 next(error);
             }
@@ -20,34 +29,33 @@ class cartController {
     async add(req, res, next) {
         try {
             if (req.user) {
-                var emp = req.user.LOAINV === "emp";
-                var productId = req.body.masach;
-                var minQuantity = await rulesService.getMinQuantity(emp);
-                var curr_quantity_max = await rulesService.getCurrMax();
-                var curr_quantity_min = await rulesService.getCurrMin();
-                var product = await cartservice.getSachbyID(productId);
-                var stockPr = await cartservice.getquantityBook(productId);
-                if (!emp && stockPr.SLCuoi > curr_quantity_max) {
-                    res.json({
-                        message: "Số lượng sách hiện tại vượt mức quy định",
-                    });
-                } else {
+                // var emp = req.user.LOAINV === "emp";
+                var quantity_min = await rulesService.getMinQuantity();
+                var curr_import_min = await rulesService.getCurrIMin();
+                var product = await cartService.getSach(req.body.MASACH);
+                // if (!emp && product.SOLUONG > curr_import_min) {
+                //     res.json({
+                //         message: "Số lượng sách hiện tại vượt mức quy định",
+                //     });
+                // } else {
                     if (
-                        emp &&
-                        stockPr.SLCuoi - minQuantity < curr_quantity_min
+                        // emp &&
+                        product.LUONGTON > quantity_min
                     ) {
                         res.json({
-                            message: "Số lượng sách hiện tại vượt mức quy định",
+                            message: "Lượng tồn của sách đang chọn đang vượt mức quy định để có thể nhập",
                         });
                     } else {
+                        // await cartService.store(req);
                         var cart = new Cart(
                             req.session.cart ? req.session.cart : {}
                         );
-                        cart.add(product, productId, minQuantity);
+                        cart.add(product, req.body.MASACH, quantity_min);
                         req.session.cart = cart;
-                        res.json({ message: "Thành công!" });
+                        res.redirect("/cart");
+                        // res.json({ message: "Thành công!" });
                     }
-                }
+                // }
             } else {
                 res.redirect("/");
             }
@@ -80,7 +88,7 @@ class cartController {
                 var id = req.query.id;
                 var curr_quantity_max = await rulesService.getCurrMax();
                 var curr_quantity_min = await rulesService.getCurrMin();
-                var stockPr = await cartservice.getquantityBook(id);
+                var stockPr = await cartService.getquantityBook(id);
                 if (emp && stockPr.SLCuoi - quantity < curr_quantity_min) {
                     res.status(201).json({
                         message: "Số lượng sách hiện tại vượt mức quy định",
@@ -135,7 +143,7 @@ class cartController {
     async listCust(req, res, next) {
         try {
             if (req.user) {
-                const list = await cartservice.getlistCust();
+                const list = await cartService.getlistCust();
                 res.status(200).json({ list });
             } else {
                 res.redirect("/");

@@ -40,25 +40,23 @@ exports.add = async(req) => {
         await sequelize.transaction(async (t) => {
             let date=new Date;
             const phieunhap = await models.phieunhapsach.create({
-                
                 MAPNS: req.body.MAPNS,
                 NGAYNHAPSACH : date,
-                MANV : req.user.MANV,
-            
+                NHANVIENNHAP: req.user.MANV,
             }, {transaction: t});
-            if (!Array.isArray(req.body.masach)) {
+            if (!Array.isArray(req.body.MASACH)) {
                 await models.ct_phieunhap.create({
-                    MAPN: req.body.MAPN,
-                    MASACH: req.body.masach,
-                    SL: req.body.SL
+                    MAPNS: req.body.MAPNS,
+                    MASACH: req.body.MASACH,
+                    SOLUONG: req.body.SOLUONG
                 }, {transaction: t})
             }
             else {
-                for (var i = 0; i < req.body.masach.length; i++) {
+                for (var i = 0; i < req.body.MASACH.length; i++) {
                     await models.ct_phieunhap.create({
-                        MAPN: req.body.MAPN,
-                        MASACH: req.body.masach[i],
-                        SL: req.body.SL[i]
+                        MAPNS: req.body.MAPNS,
+                        MASACH: req.body.MASACH[i],
+                        SOLUONG: req.body.SOLUONG[i]
                     }, {transaction: t})
                 }
             }
@@ -69,26 +67,30 @@ exports.add = async(req) => {
     }
 }
 exports.getInfor= async (MAPN) =>{
-    return await models.phieunhap.findOne({ where: { MAPN: MAPN } , raw : true});
+    return await models.phieunhapsach.findOne({ where: { MAPNS: MAPN } , raw : true});
 }
 exports.getImportDetail = async (MAPN, title, page, itemPerPage) => {
     var condition = '';
     if (title) {
       condition = title;
     }
-    return await models.ct_phieunhap.findAndCountAll(
-        {where: {
-            [Op.and]: [
-                {
-                    MAPN: MAPN
+    return await models.ct_phieunhap.findAndCountAll({
+        include:[{
+            model: models.sach,
+            where: {
+                TENSACH: {
+                    [Op.like]: "%" + condition + "%",
                 },
-                {
-                    MASACH: {
-                        [Op.like]: "%" + condition + "%",
-                    },
-                }
-            ]
             },
+            include: [{
+                model: models.loaisach,
+            }],
+        }],
+        where: {
+            [Op.and]: [{
+                MAPNS: MAPN
+            },]
+        },
         raw : true,
         offset: page*itemPerPage, 
         limit: itemPerPage, 
@@ -96,14 +98,9 @@ exports.getImportDetail = async (MAPN, title, page, itemPerPage) => {
 }
 exports.getBooks = async (MASACH) => {
     return await models.sach.findAll({ 
-        where: { masach: MASACH },
+        where: { MASACH: MASACH },
         include: [{
-            model: models.theloaiofsach, 
-            as: 'theloaiofsaches',
-            include: [{
-                model: models.theloai,
-                as: 'maTL_theloai'
-            }]
+                model: models.loaisach,
         }],
         raw : true});
     
@@ -123,24 +120,21 @@ exports.getBookInfor = async (books_rows) => {
     }
     return books_rows;
 }
-exports.getEmp = async (nvID) =>{
-    return await models.nhanvien.findOne({where: {MANV: nvID}, raw : true})
-}
 
 exports.genKeyPN = async () => {
-    var order = await models.phieunhap.findAll({paranoid: false,});
+    var order = await models.phieunhapsach.findAll({paranoid: false,});
     var i = 1;
     var check = true;
     var str;
     while (true) {
       check = true;
       str = '' + i;
-      while (str.length < 5) {
+      while (str.length < 3) {
         str = 0 + str;
       }
       s_key = str;
       for (let index = 0; index < order.length; index++) {
-        if (order[index]['MAPN'] === s_key) {
+        if (order[index]['MAPNS'] === s_key) {
           check = false;
           break;
         }

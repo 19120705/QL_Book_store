@@ -1,5 +1,6 @@
 const importService = require("../services/importService");
 const pagination = require("../../public/js/pages/pagination");
+const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequelize');
 // dùng để in csv
 // const CsvParser = require("json2csv").Parser;
 
@@ -37,12 +38,13 @@ class orderController {
                         ? Math.ceil(order.count / itemPerPage)
                         : page + 1;
                 const pagItems = pagination.paginationFunc(page + 1, TotalPage);
-
+                const mapns = await importService.genKeyPN();
                 res.render("orders/import", {
                     Items: pagItems,
                     order: order.rows,
                     title: title,
                     chooseMonth: secondChooseMonth,
+                    mapns: mapns,
                 });
             }
         } else {
@@ -54,11 +56,11 @@ class orderController {
     async add(req, res, next) {
         try {
             if (req.user && req.user.LOAINV != 'emp') {
-                req.body.MAPN = await importService.genKeyPN();
+                req.body.MAPNS = await importService.genKeyPN();
                 const created = await importService.add(req);
                 if (created) {
                     req.session.cart = {};
-                    return res.redirect("back");
+                    return res.redirect("/importOrder");
                 } else {
                     res.status(401).json("Lỗi! Kiểm tra số lượng nhập");
                 }
@@ -84,14 +86,13 @@ class orderController {
 
                     const MAPN = req.params.id;
                     const ct_pn = await importService.getInfor(MAPN);
-                    const emp = await importService.getEmp(ct_pn.MANV);
                     var books = await importService.getImportDetail(
                         MAPN,
                         title,
                         page,
                         itemPerPage
                     );
-                    books.rows = await importService.getBookInfor(books.rows);
+                    // books.rows = await importService.getBookInfor(books.rows);
 
                     const TotalPage =
                         Math.ceil(books.count / itemPerPage) > page + 1
@@ -103,7 +104,6 @@ class orderController {
                     );
                     res.render("orders/importDetail", {
                         ct_pn,
-                        emp,
                         Items: pagItems,
                         title: title,
                         books: books.rows,

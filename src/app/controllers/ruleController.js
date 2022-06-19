@@ -7,8 +7,8 @@ const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequel
         if(req.user){
             if(req.user.LOAINV == 'adm') {
                 try {
-                    var rules1 = await rulesService.getRules()
-                    res.render('rules/inforRule',{rules:SequelizeToObject(rules1)})
+                    var rules = await rulesService.getRules()
+                    res.render('rules/inforRule',{rules:SequelizeToObject(rules)})
                 } catch (error) {
                     next(error)
                 }
