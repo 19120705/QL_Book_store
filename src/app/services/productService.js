@@ -17,6 +17,7 @@ exports.list = (title , page, itemPerPage) => {
         raw: true,
         include:[{
             model: models.loaisach,
+            as: "sach_loaisach",
         }],
         where: {
           TENSACH :{

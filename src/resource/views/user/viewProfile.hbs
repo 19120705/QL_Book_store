@@ -1,0 +1,96 @@
+<div class="content-page">
+    <div class="content">
+
+        <!-- Start Content-->
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title">Profile</h4>
+                        <div class="float-left md-4  mr-4">
+                            <a href="/accounts/" class="btn btn-link">
+                                <i class="ri-arrow-left-line"></i>
+                                Quay lại
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+
+
+            <!-- end page title -->
+        </div>
+        <!-- Form Edit Product -->
+        <div class="">
+            <ul class="list-group list-group-flush">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8">
+                            <form action="/admins/{{admin.MANV}}/edit?_method=put" method="post">
+                                <li class="list-group-item">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default"
+                                                value="{{admin.MANV}}">Họ tên</span>
+                                        </div>
+                                        <input name="HOTEN" type="text" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default"
+                                            value="{{admin.TENNV}}" readonly/>
+
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"
+                                                id="inputGroup-sizing-default">Email</span>
+                                        </div>
+                                        <input name="EMAIL" type="email" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default"
+                                            value="{{admin.EMAIL}}" readonly/>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Giới
+                                                tính</label>
+                                        </div>
+                                        <input name="GIOITINH" type="text" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default"
+                                            value="{{admin.GIOITINH}}" readonly/>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Số
+                                                điện thoại</span>
+                                        </div>
+                                        <input name="SDT" type="text" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default" value="{{admin.SDT}}" readonly/>
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" id="inputGroup-sizing-default">Địa
+                                                chỉ</span>
+                                        </div>
+                                        <input name="DIACHI" type="text" class="form-control"
+                                            aria-describedby="inputGroup-sizing-default"
+                                            value="{{admin.DIACHI}}" readonly/>
+                                    </div>
+                                    
+                                </li>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+
+            </ul>
+        </div>
+        <!-- End Form Edit Product -->
+    </div>
+</div>
+
+<script>
+  var sexEl = document.getElementById("inputGroupSelect01");
+  sexEl.value = "{{admin.PHAI}}";
+</script>

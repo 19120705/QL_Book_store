@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const {models} = require('../../config/sequelize')
+const {models} = require('../../config/db')
 
 
 //User profile
@@ -26,12 +26,12 @@ exports.changePasswd = async (req) => {
     }
     hashPasswd = await bcrypt.hash(req.body.newPasswd, 10);
     await models.nhanvien.update(
-        {PASS: hashPasswd},
+        {PASSWORD: hashPasswd},
         {where: {MANV: account.MANV}}        
     )
     return "Success"
 }
 
 function validPassword(user, password){
-    return bcrypt.compare(password, user.PASS);
+    return bcrypt.compare(password, user.PASSWORD);
 }

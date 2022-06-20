@@ -2,6 +2,7 @@ const siteRouter = require('./site');
 const accountsRouter = require('./Accounts');
 const billRouter = require('./Bill');
 const deptRouter = require('./Debt');
+const userRouter = require('./User');
 const RouterCustomer = require('./Customers');
 const RouterProduct = require('./Products');
 const RouterOrder = require('./Order');
@@ -20,6 +21,7 @@ function route(app){
   app.use('/importOrder',RouterOrder)
   app.use('/cart', RouterCart)
   app.use('/rule',RouterRule)
+  app.use('/user',userRouter)
 }
 
 module.exports=route;
