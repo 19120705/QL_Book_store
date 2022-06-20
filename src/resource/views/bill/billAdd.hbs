@@ -1,0 +1,286 @@
+<div class="content-page" id="cart-temp">
+    <div class="container-fluid">
+        
+        <form id="cart-form" autocomplete="off" action="bill/add" method="POST">
+            <div class="row">
+                <aside class="col-lg-9">
+                    <div class="card">
+                        <div class="table-responsive">
+
+                            <table class="table table-borderless table-shopping-cart">
+                                <thead class="text-muted">
+                                    <tr class="small text-uppercase">
+                                        <th scope="col">Product</th>
+                                        <th scope="col" width="120">Quantity</th>
+                                        <th scope="col" width="120">Price</th>
+                                        <th scope="col" class="text-right d-none d-md-block" width="200"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="pro">
+
+                                    {{!-- TEST --}}
+                                    
+
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </aside>
+                <aside class="col-lg-3">
+                    <div class="card mb-3">
+                        <div class="card-body">
+
+                            {{#if user.emp}}
+                            <div class="form-group"> <label>Thông tin mua hàng</label>
+                                <div class="mt-3">
+                                    <div class="autocomplete" style="width:300px;">
+                                        <label for="myInput"><b>Khách hàng</b></label><br>
+                                        <input type="text" placeholder="Họ tên hoặc ID" value=""  name="MAKH" id="myInput"  required>
+                                    </div>
+                                    <button class="mt-2 btn btn-out btn-primary btn-square btn-main" id="btn-generator">Vô Danh</button>
+                                </div>
+                            </div>
+                            {{else}}
+                            <div class="form-group"> <label>Thông tin nhập hàng</label>
+
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                    <div class="card">
+
+                        <div class="card-body">
+                            {{#if user.emp}}
+                            <dl class="dlist-align">
+                                <dt>Total price:</dt>
+                                <dd class="text-right ml-3">
+                                    <p id="tong"></p>
+                                </dd>
+                            </dl>
+                            <dl class="dlist-align">
+                                <dt>Total:</dt>
+                                <dd class="text-right text-dark b ml-3"><strong>
+                                        <p id="tong"></p>
+                                    </strong></dd>
+                            </dl>
+                            <hr>
+                            {{/if}}
+                            <button form="cart-form" type="submit"
+                                class="btn btn-out mt-2 btn-primary btn-square btn-main"
+                                data-abc="true">Confirm</button>
+                            <a href="#" class="btn btn-out mt-2 btn-primary btn-square btn-main" data-abc="true">invoice
+                                printing</a>
+                             <a href="#addBook" data-toggle="modal">
+                                <button class="btn btn-out mt-2 btn-primary btn-square btn-main">
+                                     <span>Add Book</span>
+                                </button>
+                            </a>
+                        </div>
+
+                    </div>
+                </aside>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+ <div id="addBook" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="/bill/addcthoadon">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Thêm sách nhập</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="form-group">
+                                <label>Tên sách</label>
+                               <select class="form-control" id="TS" name="MASACH">
+                                   {{#each sach}}
+                                       <option value="{{this.MASACH}}">{{this.TENSACH}}</option>
+                                   {{/each}}
+                               </select>
+                                <label for="SOLUONG">Số lượng nhập</label>
+                                     <input class="form-control" max="100" min="1" type="number" name="SOLUONG" required placeholder="Enter quality">
+                            </div>
+                         </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-success" value="Add">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+</head>
+<script type="text/javascript">
+    var quantity
+    var bool = true
+    var min = '{{min}}'
+    var LOAINV = '{{user.emp}}'
+    function loadfunctions() {
+        $.getJSON('/cart/resfesh', function (data) {
+            
+            if (data.products) {
+                for (const i of data.products) {
+                    $('tbody.pro').append(`<tr>
+                                        <td>
+                                            <figure class="itemside align-items-center">
+                                                <div class="aside"><img src="${i.item.IMAGE}" class="img-sm"></div>
+                                                <figcaption class="info"> <a href="#" class="title text-dark"
+                                                        data-abc="true">${i.item.tensach}</a>
+                                                    <p class="text-muted small">${i.item.tacgia} <br> ${i.item.ngayXB}</p>
+                                                </figcaption>
+                                            </figure>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="masach" value="${i.item.masach}">
+                                            <input class="form-control text-center input-quantity" data-masach="${i.item.masach}" name="SL" min="${min}"  step="1" type="number" value=${i.quantity} >
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap"> <var class="price">${i.price} vnd </var> </div>
+                                        </td>
+                                        <td class="text-right d-none d-md-block">
+                                            <a href="/cart/remove/${i.item.masach}" class="btn btn-light" data-abc="true"> Remove </a>
+                                        </td>
+                                    </tr>`)
+                }
+            } else {
+                $('tbody.pro').append(`<tr> <td rowspan="4"> <p class = "text-center">Nothing here</p> </td> </tr>`)
+            }
+            $('p#tong').append(`${data.totalPrice}`)
+        })
+        quantity = $('input.input-quantity')
+    }
+    $(document).ready(function () {
+        $('body').on('change', 'input.input-quantity', function (e) {
+            e.preventDefault()
+
+            let quantity = $(this).val()
+            let id = $(this).data('masach')
+            $.ajax({
+                url: '/cart/update-quantity',
+                method: 'GET',
+                data: {
+                    LOAINV,
+                    quantity: quantity,
+                    id: id,
+                },
+                success: function (data) {
+                    $('div#title').empty()
+                    $('tbody.pro').empty()
+                    $('p#tong').empty()
+                    loadfunctions()
+                    if(data.message){
+                        alert(data.message)
+                    }
+                }
+            })
+        });
+    });
+    loadfunctions()
+    var list = []
+    function loadListCus() {
+        $.getJSON('/cart/listUser', function (data) {
+            for (const item of data.list) {
+                list.push(item.MAKH + " " + item.HOTEN)
+            }
+
+        })
+    }
+    loadListCus()
+    function autocomplete(inp, arr) {
+        var currentFocus;
+        inp.addEventListener("input", function (e) {
+            var a, b, i, val = this.value;
+            closeAllLists();
+            if (!val) { return false; }
+            currentFocus = -1;
+            a = document.createElement("DIV");
+            a.setAttribute("id", this.id + "autocomplete-list");
+            a.setAttribute("class", "autocomplete-items");
+            this.parentNode.appendChild(a);
+            for (i = 0; i < arr.length; i++) {
+                if ((arr[i].toUpperCase()).indexOf((val.toUpperCase())) != -1) {
+                    b = document.createElement("DIV");
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    b.innerHTML += "<input type='hidden' value='" + arr[i].slice(0,6) + "'>";
+                    b.addEventListener("click", function (e) {
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
+                }
+            }
+        });
+        inp.addEventListener("keydown", function (e) {
+            var x = document.getElementById(this.id + "autocomplete-list");
+            if (x) x = x.getElementsByTagName("div");
+            if (e.keyCode == 40) {
+                currentFocus++;
+                addActive(x);
+            } else if (e.keyCode == 38) { 
+                currentFocus--;
+                addActive(x);
+            } else if (e.keyCode == 13) {
+                e.preventDefault();
+                if (currentFocus > -1) {
+                    if (x) x[currentFocus].click();
+                }
+            }
+        });
+        function addActive(x) {
+            if (!x) return false;
+            removeActive(x);
+            if (currentFocus >= x.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = (x.length - 1);
+            x[currentFocus].classList.add("autocomplete-active");
+        }
+        function removeActive(x) {
+            for (var i = 0; i < x.length; i++) {
+                x[i].classList.remove("autocomplete-active");
+            }
+        }
+        function closeAllLists(elmnt) {
+            var x = document.getElementsByClassName("autocomplete-items");
+            for (var i = 0; i < x.length; i++) {
+                if (elmnt != x[i] && elmnt != inp) {
+                    x[i].parentNode.removeChild(x[i]);
+                }
+            }
+        }
+        document.addEventListener("click", function (e) {
+            closeAllLists(e.target);
+        });
+    }
+    $('#btn-generator').on('click', function (e) {
+        e.preventDefault();
+        if(bool){
+            $('#myInput').val('XXXXXX')
+            $('#myInput').attr('readonly', true);
+        }else{
+            $('#myInput').val('')
+            $('#myInput').removeAttr('readonly')
+        }   
+        bool = !bool   
+    })
+    autocomplete(document.getElementById("myInput"), list);
+</script>

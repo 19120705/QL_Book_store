@@ -1,6 +1,8 @@
 const pagination = require("../../public/js/pages/pagination");
 const billService = require("../services/billService");
 const rulesService = require("../services/rulesService");
+const productService = require('../services/productService');
+const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequelize');
 const e = require("express");
 // dùng để in csv
 const CsvParser = require("json2csv").Parser;
@@ -54,15 +56,45 @@ class sellingController {
     async add(req, res, next) {
         try {
             if (req.user ) {
+                const sach = await productService.getBooks();
                 req.body.MAHD = await billService.genKeyHD();
-                req.body.MinBook = await rulesService.getSoldMin();
-                const created = await billService.add(req);
-                if (created) {
-                    req.session.cart = {};
-                    return res.redirect("back");
-                } else {
-                    res.status(401).json("Lỗi! Kiểm tra thông tin nợ");
-                }
+                res.render("bill/billAdd",{
+                    sach: multipleSequelizeToObject(sach),
+                    req,
+                });
+
+            } else {
+                res.redirect("/");
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async addCT_HoaDon(req, res, next) {
+        try {
+            if (req.user ) {
+                let account="success";
+                console.log(req);
+                res.redirect("/bill/add",{
+                    req,
+                });
+            } else {
+                res.redirect("/");
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async addHoaDon(req, res, next) {
+        try {
+            if (req.user ) {
+                const sach = await productService.getBooks();
+                req.body.MAHD = await billService.genKeyHD();
+
+                res.render("bill/billAdd",{sach: multipleSequelizeToObject(sach)});
+
             } else {
                 res.redirect("/");
             }

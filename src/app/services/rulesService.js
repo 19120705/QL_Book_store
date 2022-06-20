@@ -26,3 +26,19 @@ exports.updateSave = async (req) => {
     rule.set(req.body);
     await rule.save()
 }
+exports.getCurrIMin = async () => {
+    rules = await this.getRules()
+    return rules.LuongTonMinTruocNhap
+}
+exports.getCurrEMin = async () => {
+    rules = await this.getRules()
+    return rules.LuongTonMinSauBan
+}
+exports.getMinQuantity = async (emp) => {
+    rules = await this.getRules()
+    return rules.SoLuongNhapMin
+}
+exports.getSoldMax = async () => {
+    rules = await this.getRules()
+    return rules.TienNoMax
+}

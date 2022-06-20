@@ -5,7 +5,8 @@ const billController = require('../app/controllers/billController');
 //list bill
 router.get('/', billController.list)
 // add order
-router.post('/add', billController.add);
+router.get('/add', billController.add);
+router.post('/addcthoadon', billController.addCT_HoaDon);
 // view order
 router.get('/view/:id', billController.view);
   

@@ -28,7 +28,7 @@
                                         <a href="#addProductModal" data-toggle="modal">
                                             <button class="btn btn-primary">
                                                 <i class="mdi mdi-plus-circle mr-2"></i>
-                                                <span>Add Product</span>
+                                                <span>Thêm sách</span>
                                             </button>
                                         </a>
                                     </div>
@@ -55,12 +55,12 @@
                             <thead>
                                 <tr>
 
-                                    <th>ID</th>
-                                    <th>Name</th>
-                                    <th>Author</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Kind</th>
+                                    <th>Mã sách</th>
+                                    <th>Tên sách</th>
+                                    <th>Tác giả</th>
+                                    <th>Giá</th>
+                                    <th>Lượng tồn</th>
+                                    <th>Loại sách</th>
                                     <th rowspan="2">Edit</th>
                                 </tr>
                             </thead>
@@ -72,7 +72,7 @@
                                     <td>{{this.TACGIA}}</td>
                                     <td>{{this.DONGIA}}</td>
                                     <td>{{this.LUONGTON}}</td>
-                                    <td>{{this.[loaisach.TENLOAI]}}</td>
+                                    <td>{{this.[sach_loaisach.TENLOAI]}}</td>
                                     <td>
                                         <a href="products/update/{{this.MASACH}}" class="edit btn btn-link">
                                             <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
