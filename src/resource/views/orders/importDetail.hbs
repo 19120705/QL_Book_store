@@ -43,10 +43,6 @@
                             </div>
                         </div>
                         <div class="mb-2 mt-2 d-flex justify-content-between">
-                            <a href="/importOrder/print/{{ct_pn.MAPNS}}" class="waves-effect d-flex align-items-center">
-                                <i class='fas fa-print'></i>
-                                <span> Download </span>
-                            </a>
                             <div class=" text-sm-center form-inline">
                                         <span class="font-weight-bold">Ngày nhập: &nbsp;</span> 
                                         <span>{{ct_pn.NGAYNHAPSACH}}</span>
@@ -103,54 +99,11 @@
         </div> <!-- content -->
 
     </div>
-
+</div>
 
     <!-- ============================================================== -->
     <!-- End Page content -->
     <!-- ============================================================== -->
 
 
-    {{!-- model delete --}}
-    <div class="modal fade" id="delete-book-modals">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Xác nhận</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    Bạn có thật sự muốn xóa ?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btn-delete-book" class="btn-delete-book btn btn-primary btn-danger">Xóa bỏ</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
-
-    {{!-- end model delete --}}
-
-
-
-
-
-
-    <form name="form-delete-books" method="POST"></form>
-
-    <script>
-        var deleteForm = document.forms['form-delete-books']
-        var deleteBtns = Array.from(document.getElementsByClassName('delete-btns')); // lấy tất cả các button delete dưới dạng mảng
-        var deleteConfirm = document.querySelector('.btn-delete-book')
-        for (const deleteBtn of deleteBtns) {
-            deleteBtn.onclick = function (e) {
-                var book = this.getAttribute('data-bookid')// khi onclick vào button xóa của khóa học nào thì sẽ nhận được id của khóa học đó
-                deleteConfirm.onclick = function (e) {  // sau đó click vào button confirm xóa để 
-                    deleteForm.action = `/products/${book}/del?_method=DELETE`; // truyền  url chứa id của từng khóa học vào action và với method DELETE
-                    deleteForm.submit(); // và submit form .
-                }
-            }
-    
-        }
-    </script>

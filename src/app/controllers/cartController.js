@@ -8,12 +8,10 @@ class cartController {
     async cartList(req, res, next) {
         if (req.user) {
             try {
-                var emp = req.user.LOAINV === "emp";
-                const min = await rulesService.getMinQuantity(emp);
                 const carts = await cartService.list();
                 const sach = await cartService.getBooks();
                 const mapns = req.params.id;
-                res.render("cart/cart", { min, 
+                res.render("cart/cart", {
                     carts: carts.rows, 
                     sach: multipleSequelizeToObject(sach),
                     mapns: mapns,
@@ -29,33 +27,21 @@ class cartController {
     async add(req, res, next) {
         try {
             if (req.user) {
-                // var emp = req.user.LOAINV === "emp";
-                var quantity_min = await rulesService.getMinQuantity();
                 var curr_import_min = await rulesService.getCurrIMin();
                 var product = await cartService.getSach(req.body.MASACH);
-                // if (!emp && product.SOLUONG > curr_import_min) {
-                //     res.json({
-                //         message: "Số lượng sách hiện tại vượt mức quy định",
-                //     });
-                // } else {
-                    if (
-                        // emp &&
-                        product.LUONGTON > quantity_min
-                    ) {
-                        res.json({
-                            message: "Lượng tồn của sách đang chọn đang vượt mức quy định để có thể nhập",
-                        });
-                    } else {
-                        // await cartService.store(req);
-                        var cart = new Cart(
-                            req.session.cart ? req.session.cart : {}
-                        );
-                        cart.add(product, req.body.MASACH, quantity_min);
-                        req.session.cart = cart;
-                        res.redirect("/cart");
-                        // res.json({ message: "Thành công!" });
-                    }
-                // }
+                if ( product.LUONGTON > curr_import_min) {
+                    res.status(201).json({
+                        message: "Lượng tồn của sách đang chọn đang vượt mức quy định",
+                    });
+                } else {
+                    var cart = new Cart(
+                        req.session.cart ? req.session.cart : {}
+                    );
+                    cart.add(product, req.body.MASACH, req.body.SOLUONG);
+                    req.session.cart = cart;
+                    res.redirect("/cart");
+                    // res.json({ message: "Thành công!" });
+                }
             } else {
                 res.redirect("/");
             }
