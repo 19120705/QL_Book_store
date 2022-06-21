@@ -52,33 +52,31 @@ exports.add = async(req) => {
                 MAHD: req.body.MAHD,
                 NGAYLAPHOADON : date,
                 MANV : req.user.MANV,
-            
+                TONGTIEN: req.TONGTIEN
             }, {transaction: t});
+
             if (!Array.isArray(req.body.MASACH)) {
+                let sach = await models.sach.findOne(
+                    { where: { MASACH: req.body.MASACH }});
                 await models.ct_hoadon.create({
                     MAHD: req.body.MAHD,
                     MASACH: req.body.MASACH,
                     SOLUONG: req.body.SOLUONG,
-                    DONGIA: req.body.DONGIA
+                    DONGIA: sach.DONGIA
                 }, {transaction: t})
             }
             else {
                 for (var i = 0; i < req.body.MASACH.length; i++) {
+                    let sach = await models.sach.findOne(
+                        { where: { MASACH: req.body.MASACH[i] }});
                     await models.ct_hoadon.create({
                         MAHD: req.body.MAHD,
                         MASACH: req.body.MASACH[i],
                         SOLUONG: req.body.SOLUONG[i],
-                        DONGIA: req.body.DONGIA[i]
+                        DONGIA: sach.DONGIA
                     }, {transaction: t})
                 }
             }
-            let TongTien = await models.ct_hoadon.sum('DONGIA',{where:{MAHD:req.body.MAHD}});
-            await models.hoadonbansach.update({TONGTIEN : TongTien},{ where: { MAHD: req.body.MAHD }});
-            await models.tonno.create({
-                MAKH: req.body.MAKH,
-                NgayThang : date,
-                SoNo : TongTien
-            })
         })
         return true
     } catch (err) {
@@ -125,9 +123,20 @@ exports.getBooks = async (MASACH) => {
         raw : true});
     
 }
+
+exports.getListBook = (quantity_min) => {
+    return models.sach.findAll({
+        where:{
+            LUONGTON:{
+                [Op.gt]: quantity_min,
+            }
+        }
+    })
+};
+
 exports.getBookInfor = async (books_rows) => {
     for (let book of books_rows) {
-        book.THELOAI = ""
+        book.LOAISACH = ""
         const sach = await this.getBooks(book.MASACH)
         book.TENSACH = sach[0].TENSACH
         book.DONGIA = sach[0].DONGIA

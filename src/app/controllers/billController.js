@@ -1,7 +1,10 @@
 const pagination = require("../../public/js/pages/pagination");
+var Cart = require("../models/cart");
 const billService = require("../services/billService");
 const rulesService = require("../services/rulesService");
 const productService = require('../services/productService');
+const cartService = require("../services/cartService");
+const customerService = require("../services/customersService");
 const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequelize');
 const e = require("express");
 // dùng để in csv
@@ -56,11 +59,10 @@ class sellingController {
     async add(req, res, next) {
         try {
             if (req.user ) {
-                const sach = await productService.getBooks();
-                req.body.MAHD = await billService.genKeyHD();
+                var quantity_min = await rulesService.getMinQuantity();
+                const sach = await billService.getListBook(quantity_min);
                 res.render("bill/billAdd",{
                     sach: multipleSequelizeToObject(sach),
-                    req,
                 });
 
             } else {
@@ -70,36 +72,76 @@ class sellingController {
             next(err);
         }
     }
-
+    //[POST]: /bill/addcthoadon
     async addCT_HoaDon(req, res, next) {
         try {
-            if (req.user ) {
-                let account="success";
-                console.log(req);
-                res.redirect("/bill/add",{
-                    req,
-                });
+            if (req.user) {
+                // var emp = req.user.LOAINV === "emp";
+                var quantity_min = await rulesService.getMinQuantity();
+                var curr_import_min = await rulesService.getCurrIMin();
+                var product = await cartService.getSach(req.body.MASACH);
+                        // await cartService.store(req);
+                var cart = new Cart(
+                    req.session.cart ? req.session.cart : {}
+                );
+                let SoLuong=req.body.SOLUONG;
+                console.log(SoLuong)
+                if (product.LUONGTON-SoLuong < await rulesService.getCurrEMin())
+                {
+                    res.redirect("/bill/add?message="+"Add fail");
+                }
+                else{
+                    cart.add(product, req.body.MASACH, req.body.SOLUONG);
+                    req.session.cart = cart;
+                    res.redirect("/bill/add?message="+"Add success");
+                        // res.json({ message: "Thành công!" });
+                }    
+                // }
             } else {
                 res.redirect("/");
             }
-        } catch (err) {
-            next(err);
+        } catch (error) {
+            next(error);
         }
     }
 
     async addHoaDon(req, res, next) {
         try {
-            if (req.user ) {
-                const sach = await productService.getBooks();
-                req.body.MAHD = await billService.genKeyHD();
-
-                res.render("bill/billAdd",{sach: multipleSequelizeToObject(sach)});
-
+            if (req.user) {
+                if(req.MAKH=="XXXXXX" || customerService.getdebt(req.MAKH)<=rulesService.getSoldMax())
+                {
+                    req.body.MAHD = await billService.genKeyHD();
+                    const created = await billService.add(req);
+                    if (created) {
+                        req.session.cart = {};
+                        return res.redirect("/bill?message="+"Add success");
+                    } else {
+                        res.status(401).json("Lỗi! Kiểm tra số lượng nhập");
+                    }
+                }
             } else {
                 res.redirect("/");
             }
         } catch (err) {
             next(err);
+        }
+    }
+
+
+    //[GET]:/remove/:id
+    async remove(req, res, next) {
+        try {
+            if (req.user) {
+                var productId = req.params.id;
+                var cart = new Cart(req.session.cart ? req.session.cart : {});
+                cart.remove(productId);
+                req.session.cart = cart;
+                res.redirect("/bill/add");
+            } else {
+                res.redirect("/");
+            }
+        } catch (error) {
+            next(error);
         }
     }
 

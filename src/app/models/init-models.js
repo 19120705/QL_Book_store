@@ -25,9 +25,17 @@ function initModels(sequelize) {
   var sach = _sach(sequelize, DataTypes);
   var tonno = _tonno(sequelize, DataTypes);
 
-  sach.belongsTo(loaisach, {foreignKey: "LOAISACH", targetKey: 'MALOAI'});
+  sach.belongsTo(loaisach, {as: "sach_loaisach",foreignKey: "LOAISACH", targetKey: 'MALOAI'});
   loaisach.hasMany(sach, {foreignKey: "LOAISACH", sourceKey: 'MALOAI'});
   
+
+  hoadonbansach.belongsTo(khachhang, {foreignKey: "MAKH", targetKey: 'MAKH'});
+  khachhang.hasMany(hoadonbansach, {foreignKey: "MAKH", sourceKey: 'MAKH'});
+
+  ct_hoadon.belongsTo(hoadonbansach, {foreignKey: "MAHD", targetKey: 'MAHD'});
+  hoadonbansach.hasMany(ct_hoadon, {foreignKey: "MAHD", sourceKey: 'MAHD'})
+
+
   phieunhapsach.belongsTo(nhanvien, {foreignKey: "NHANVIENNHAP", targetKey: 'MANV'});
   nhanvien.hasMany(phieunhapsach, {foreignKey: "NHANVIENNHAP", sourceKey: 'MANV'});
 

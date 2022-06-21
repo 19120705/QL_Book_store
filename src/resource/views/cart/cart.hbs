@@ -158,6 +158,7 @@
 
             let quantity = $(this).val()
             let id = $(this).data('MASACH')
+
             $.ajax({
                 url: '/cart/update-quantity',
                 method: 'GET',

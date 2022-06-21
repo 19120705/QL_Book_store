@@ -65,21 +65,16 @@
                                 <tr>
 
                                     <th>ID Mã khác hàng</th>
-                                    <th>Nợ đầu</th>
-                                    <th>Nợ cuối</th>
-                                    <th>Tổng nợ </th>
-                                    <th>Tổng trả </th>
-                                    <th>tùy chỉnh</th>
+                                    <th>Ngày tháng</th>
+                                    <th>Số nợ</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {{#each Debts}}
                                 <tr>
                                     <td>{{this.MAKH}}</td>
-                                    <td>{{this.nodau}}</td>
-                                    <td>{{this.nocuoi}}</td>
-                                    <td>{{this.tongno}}</td>
-                                    <td>{{this.tongtra}}</td>
+                                    <td>{{this.Ngaythang}}</td>
+                                    <td>{{this.SoNo}}</td>
                                     <td>
 
                                         <a href="#add-debt-modals" class="add-btns btn btn-link" data-toggle="modal"

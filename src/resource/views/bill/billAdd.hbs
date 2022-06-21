@@ -1,18 +1,19 @@
 <div class="content-page" id="cart-temp">
     <div class="container-fluid">
-        
-        <form id="cart-form" autocomplete="off" action="bill/add" method="POST">
+         
+        <form id="cart-form" autocomplete="off" action="/bill/addcthoadon" method="POST">
             <div class="row">
                 <aside class="col-lg-9">
                     <div class="card">
                         <div class="table-responsive">
-
+                            
                             <table class="table table-borderless table-shopping-cart">
                                 <thead class="text-muted">
                                     <tr class="small text-uppercase">
-                                        <th scope="col">Product</th>
-                                        <th scope="col" width="120">Quantity</th>
-                                        <th scope="col" width="120">Price</th>
+                                        <th scope="col">Sản phẩm</th>
+                                        <th scope="col" width="120">Số lượng</th>
+                                        <th scope="col" width="120">Đơn giá</th>
+                                        <th scope="col" width="120">Tổng giá</th>
                                         <th scope="col" class="text-right d-none d-md-block" width="200"></th>
                                     </tr>
                                 </thead>
@@ -32,8 +33,6 @@
                 <aside class="col-lg-3">
                     <div class="card mb-3">
                         <div class="card-body">
-
-                            {{#if user.emp}}
                             <div class="form-group"> <label>Thông tin mua hàng</label>
                                 <div class="mt-3">
                                     <div class="autocomplete" style="width:300px;">
@@ -43,17 +42,11 @@
                                     <button class="mt-2 btn btn-out btn-primary btn-square btn-main" id="btn-generator">Vô Danh</button>
                                 </div>
                             </div>
-                            {{else}}
-                            <div class="form-group"> <label>Thông tin nhập hàng</label>
-
-                            </div>
-                            {{/if}}
                         </div>
                     </div>
                     <div class="card">
-
+                        <div class="card-body"> <label>Thông tin nhập hàng</label></div>
                         <div class="card-body">
-                            {{#if user.emp}}
                             <dl class="dlist-align">
                                 <dt>Total price:</dt>
                                 <dd class="text-right ml-3">
@@ -63,11 +56,10 @@
                             <dl class="dlist-align">
                                 <dt>Total:</dt>
                                 <dd class="text-right text-dark b ml-3"><strong>
-                                        <p id="tong"></p>
+                                        <p id="tong" name = "TONGTIEN"></p>
                                     </strong></dd>
                             </dl>
                             <hr>
-                            {{/if}}
                             <button form="cart-form" type="submit"
                                 class="btn btn-out mt-2 btn-primary btn-square btn-main"
                                 data-abc="true">Confirm</button>
@@ -78,6 +70,7 @@
                                      <span>Add Book</span>
                                 </button>
                             </a>
+                            
                         </div>
 
                     </div>
@@ -143,22 +136,24 @@
                     $('tbody.pro').append(`<tr>
                                         <td>
                                             <figure class="itemside align-items-center">
-                                                <div class="aside"><img src="${i.item.IMAGE}" class="img-sm"></div>
                                                 <figcaption class="info"> <a href="#" class="title text-dark"
-                                                        data-abc="true">${i.item.tensach}</a>
-                                                    <p class="text-muted small">${i.item.tacgia} <br> ${i.item.ngayXB}</p>
+                                                        data-abc="true">${i.item.TENSACH}</a>
+                                                    <p class="text-muted small">${i.item.TACGIA} </p>
                                                 </figcaption>
                                             </figure>
                                         </td>
                                         <td>
-                                            <input type="hidden" name="masach" value="${i.item.masach}">
-                                            <input class="form-control text-center input-quantity" data-masach="${i.item.masach}" name="SL" min="${min}"  step="1" type="number" value=${i.quantity} >
+                                            <input type="hidden" name="MASACH" value="${i.item.MASACH}">
+                                            <input class="form-control text-center input-quantity" data-masach="${i.item.MASACH}" name="SOLUONG" min="${min}"  step="1" type="number" value=${i.quantity} >
                                         </td>
                                         <td>
-                                            <div class="price-wrap"> <var class="price">${i.price} vnd </var> </div>
+                                            <div class="price-wrap"> <var class="price" >${i.item.DONGIA} vnd </var> </div>
+                                        </td>
+                                        <td>
+                                            <div class="price-wrap"> <var class="price" >${i.price} vnd </var> </div>
                                         </td>
                                         <td class="text-right d-none d-md-block">
-                                            <a href="/cart/remove/${i.item.masach}" class="btn btn-light" data-abc="true"> Remove </a>
+                                            <a href="/bill/remove/${i.item.MASACH}" class="btn btn-light" data-abc="true"> Remove </a>
                                         </td>
                                     </tr>`)
                 }
@@ -174,7 +169,7 @@
             e.preventDefault()
 
             let quantity = $(this).val()
-            let id = $(this).data('masach')
+            let id = $(this).data('MASACH')
             $.ajax({
                 url: '/cart/update-quantity',
                 method: 'GET',

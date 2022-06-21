@@ -9,32 +9,32 @@ exports.list = (title, Month, page, itemPerPage) => {
         secondCondition = Month;
     }
     if (condition) {
-        return models.tonno.findAndCountAll({
-            where: {
-                [Op.and]: [
-                    {
-                        NGAYTHANG: {
-                            [Op.like]: secondCondition,
-                        },
-                    },
-                    {
-                        MAKH: {
-                            [Op.like]: "%" + condition + "%",
-                        },
-                    },
-                ],
-            },
+        return models.tonno.findAll({
+            // where: {
+            //     [Op.and]: [
+            //         {
+            //             NGAYTHANG: {
+            //                 [Op.like]: secondCondition,
+            //             },
+            //         },
+            //         {
+            //             MAKH: {
+            //                 [Op.like]: "%" + condition + "%",
+            //             },
+            //         },
+            //     ],
+            // },
             offset: page * itemPerPage,
             limit: itemPerPage,
             raw: true,
         });
     } else {
         return models.tonno.findAndCountAll({
-            where: {
-                NGAYTHANG: {
-                    [Op.like]: secondCondition,
-                },
-            },
+            // where: {
+            //     NGAYTHANG: {
+            //         [Op.like]: secondCondition,
+            //     },
+            // },
             offset: page * itemPerPage,
             limit: itemPerPage,
             raw: true,

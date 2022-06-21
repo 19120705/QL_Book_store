@@ -144,3 +144,7 @@ exports.updateSave = async (req) => {
     KhachHang.set(req.body)
     await KhachHang.save()
 }
+
+exports.getdebt = async (makh) => {
+    return await models.tonno.findOne({ where: { MAKH: makh }, raw: true });
+};

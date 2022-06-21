@@ -8,8 +8,8 @@ module.exports = function Cart(cart) {
         if (!cartItem) {
             cartItem = this.items[id] = {item: item, quantity , price: 0};
         }
-        cartItem.quantity++;
-        cartItem.price = cartItem.item.gia * cartItem.quantity;
+        //cartItem.quantity++;
+        cartItem.price = cartItem.item.DONGIA * cartItem.quantity;
         this.totalItems++;
         this.totalPrice += cartItem.price;
     };

@@ -103,3 +103,8 @@ exports.getBooks = (title) => {
       },
     });
   };
+
+
+exports.getQuantityBook = async (masach) => {
+    return await models.sach.findOne({where: {MASACH: masach}}).LUONGTON;
+}

@@ -101,6 +101,7 @@ exports.getBooks = async (MASACH) => {
         where: { MASACH: MASACH },
         include: [{
                 model: models.loaisach,
+                as: sach_loaisach
         }],
         raw : true});
     
@@ -112,7 +113,7 @@ exports.getBookInfor = async (books_rows) => {
         book.TENSACH = sach[0].tensach
         book.TACGIA = sach[0].tacgia
         sach.forEach(theloai => {
-            book.THELOAI += theloai['theloaiofsaches.maTL_theloai.tenTL']
+            book.THELOAI += theloai['sach_loaisach.tenTL']
             if (theloai != sach[sach.length - 1]) {
                 book.THELOAI += ', '
             }
