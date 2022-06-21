@@ -35,6 +35,18 @@ exports.list = (title,Month,page, itemPerPage) => {
     });
 };
 
+exports.sumQuantity = async(req) => {
+    var sum = 0;
+    if (!Array.isArray(req.body.MASACH)) {
+       sum += Number(req.body.SOLUONG);
+    }
+    else {
+        for (var index = 0; index < req.body.SOLUONG.length; index++)
+            sum += Number(req.body.SOLUONG[index]);
+    }
+    return sum;
+}
+
 exports.add = async(req) => {
     try {
         await sequelize.transaction(async (t) => {
@@ -106,21 +118,6 @@ exports.getBooks = async (MASACH) => {
         raw : true});
     
 }
-exports.getBookInfor = async (books_rows) => {
-    for (let book of books_rows) {
-        book.THELOAI = ""
-        const sach = await this.getBooks(book.MASACH)
-        book.TENSACH = sach[0].tensach
-        book.TACGIA = sach[0].tacgia
-        sach.forEach(theloai => {
-            book.THELOAI += theloai['sach_loaisach.tenTL']
-            if (theloai != sach[sach.length - 1]) {
-                book.THELOAI += ', '
-            }
-        });
-    }
-    return books_rows;
-}
 
 exports.genKeyPN = async () => {
     var order = await models.phieunhapsach.findAll({paranoid: false,});
@@ -131,7 +128,7 @@ exports.genKeyPN = async () => {
       check = true;
       str = '' + i;
       while (str.length < 3) {
-        str = 0 + str;
+        str = 0 + str; 
       }
       s_key = str;
       for (let index = 0; index < order.length; index++) {

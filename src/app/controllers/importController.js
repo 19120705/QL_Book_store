@@ -1,8 +1,6 @@
 const importService = require("../services/importService");
 const pagination = require("../../public/js/pages/pagination");
-const {multipleSequelizeToObject,SequelizeToObject} = require('../../util/sequelize');
-// dùng để in csv
-// const CsvParser = require("json2csv").Parser;
+const rules = require("../services/rulesService"); 
 
 class orderController {
     //[GET]: /products/
@@ -56,14 +54,23 @@ class orderController {
     async add(req, res, next) {
         try {
             if (req.user && req.user.LOAINV != 'emp') {
-                req.body.MAPNS = await importService.genKeyPN();
-                const created = await importService.add(req);
-                if (created) {
-                    req.session.cart = {};
-                    return res.redirect("/importOrder");
-                } else {
-                    res.status(401).json("Lỗi! Kiểm tra số lượng nhập");
+                var minquantity = await rules.getMinQuantity() 
+                var sumquantity = await importService.sumQuantity(req);
+                console.log(sumquantity) 
+                if (sumquantity < minquantity) {
+                    res.status(401).json("Số lượng nhập đang ít hơn quy định");
                 }
+                else {
+                    req.body.MAPNS = await importService.genKeyPN();
+                    const created = await importService.add(req);
+                    if (created) {
+                        req.session.cart = {};
+                        return res.redirect("/importOrder");
+                    } else {
+                        res.status(401).json("Lỗi! Kiểm tra số lượng nhập");
+                    }
+                }
+                
             } else {
                 res.redirect("/");
             }
@@ -92,8 +99,6 @@ class orderController {
                         page,
                         itemPerPage
                     );
-                    // books.rows = await importService.getBookInfor(books.rows);
-
                     const TotalPage =
                         Math.ceil(books.count / itemPerPage) > page + 1
                             ? Math.ceil(books.count / itemPerPage)
@@ -116,50 +121,5 @@ class orderController {
             res.redirect("/");
         }
     }
-    //[GET]: /importOrder/print/:id
-    async print(req, res, next) {
-        if (req.user) {
-            if (req.user.LOAINV != "emp") {
-                let printTable = [];
-                const MAPN = req.params.id;
-                const ct_pn = await importService.getInfor(MAPN);
-                const books = await importService.getImportDetail(
-                    MAPN,
-                    "",
-                    0,
-                    10000
-                ); //get all books
-                books.rows = await importService.getBookInfor(books.rows);
-                books.rows.forEach((element) => {
-                    const { MASACH, TENSACH, TACGIA, THELOAI, SL } = element;
-                    printTable.push({ MASACH, TENSACH, TACGIA, THELOAI, SL });
-                });
-                console.log(printTable);
-                // const csvFields = [
-                //     "MASACH",
-                //     "TENSACH",
-                //     "TACGIAO",
-                //     "THELOAI",
-                //     "SOLUONG",
-                // ];
-                // const csvParser = new CsvParser({ csvFields, withBOM: true });
-                // let csvData = [];
-                // if (printTable) {
-                //     csvData = csvParser.parse(printTable);
-                // }
-                // const file_name =
-                //     MAPN + "-" + ct_pn.NGAYNHAP + "-" + ct_pn.MANV;
-                // res.setHeader("Content-Type", "text/csv; charset=utf-8;");
-                // res.setHeader(
-                //     "Content-Disposition",
-                //     "attachment; filename=" + file_name + ".csv"
-                // );
-                // res.status(200).end(csvData);
-            }
-        } else {
-            res.redirect("/");
-        }
-    }
 }
-
 module.exports = new orderController();

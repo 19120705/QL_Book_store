@@ -5,7 +5,6 @@ exports.getTL = () =>{
         return models.loaisach.findAll({})
 }
 
-
 exports.list = (title , page, itemPerPage) => {
     var condition = '';
     if (title) {
@@ -17,7 +16,6 @@ exports.list = (title , page, itemPerPage) => {
         raw: true,
         include:[{
             model: models.loaisach,
-            as: "sach_loaisach",
         }],
         where: {
           TENSACH :{
@@ -77,10 +75,6 @@ exports.update = (req) => {
 exports.saveUpdate = async(req) => {
     const book = await models.sach.findOne({where: {MASACH: req.params.id}});
 
-    // if (req.body.category) {
-    //   req.body.category.forEach(async (element) => {
-    //   });
-    // }
     req.body.LUONGTON = book.LUONGTON;
     book.set(req.body)
     await book.save()

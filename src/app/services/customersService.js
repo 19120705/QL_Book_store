@@ -44,7 +44,7 @@ genKeyCus = async (role) => {
     var Cus = await models.khachhang.findAll({paranoid: false,});
     var i = 1;
     var check = true;
-    var str;
+    var str = "";
     while (true) {
         check = true;
         str = "" + i;
