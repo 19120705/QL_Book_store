@@ -40,7 +40,6 @@ class cartController {
                     cart.add(product, req.body.MASACH, req.body.SOLUONG);
                     req.session.cart = cart;
                     res.redirect("/cart");
-                    // res.json({ message: "Thành công!" });
                 }
             } else {
                 res.redirect("/");
@@ -58,41 +57,6 @@ class cartController {
                 cart.remove(productId);
                 req.session.cart = cart;
                 res.redirect("/cart");
-            } else {
-                res.redirect("/");
-            }
-        } catch (error) {
-            next(error);
-        }
-    }
-    //[GET]:/update-quantity
-    async update(req, res, next) {
-        try {
-            if (req.user) {
-                var emp = req.user.LOAINV === "emp";
-                var quantity = req.query.quantity;
-                var id = req.query.id;
-                var curr_quantity_max = await rulesService.getCurrMax();
-                var curr_quantity_min = await rulesService.getCurrMin();
-                var stockPr = await cartService.getquantityBook(id);
-                if (emp && stockPr.SLCuoi - quantity < curr_quantity_min) {
-                    res.status(201).json({
-                        message: "Số lượng sách hiện tại vượt mức quy định",
-                    });
-                } else {
-                    if (!emp && stockPr.SLCuoi > curr_quantity_max) {
-                        res.status(201).json({
-                            message: "Số lượng sách hiện tại vượt mức quy định",
-                        });
-                    } else {
-                        var cart = new Cart(
-                            req.session.cart ? req.session.cart : {}
-                        );
-                        cart.update(id, quantity);
-                        req.session.cart = cart;
-                        res.status(201).json({});
-                    }
-                }
             } else {
                 res.redirect("/");
             }

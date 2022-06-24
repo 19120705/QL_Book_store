@@ -9,7 +9,6 @@ const RouterOrder = require('./Order');
 const RouterCart = require('./Cart')
 const RouterRule = require('./Rule')
 
-
 function route(app){
   app.use('/',siteRouter)
   app.use('/login',siteRouter)

@@ -39,18 +39,8 @@
                                 <label>Giá</label>
                                 <input type="number" class="form-control" value="{{product.DONGIA}}" name="DONGIA" required>
                             </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text" for="inputGroupSelect01">Loại sách</label>
-                            </div>
-                            <select class="custom-select" name="LOAISACH" id="inputGroupSelect01"="">
-                                {{#each Theloai}}
-                                    <option value="{{this.MALOAI}}">{{this.TENLOAI}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
                             <div class="form-group mt-1">
-                                <label for="des">Thể Loại</label>
+                                <label for="des">Loại sách</label>
                                  <select class="form-control" id="TL"="" name="LOAISACH">
                                    {{#each Theloai}}
                                         <option value="{{this.MALOAI}}">{{this.TENLOAI}}</option>

@@ -52,7 +52,7 @@ exports.add = async(req) => {
                 MAHD: req.body.MAHD,
                 NGAYLAPHOADON : date,
                 MANV : req.user.MANV,
-                TONGTIEN: req.TONGTIEN
+                TONGTIEN: 0,
             }, {transaction: t});
 
             if (!Array.isArray(req.body.MASACH)) {
@@ -114,11 +114,6 @@ exports.getBooks = async (MASACH) => {
         where: { MASACH: MASACH },
         include: [{
             model: models.loaisach, 
-            as: 'sach_loaisach'
-            // include: [{
-            //     model: models.loaisach,
-            //     as: 'MaLoai'
-            // }]
         }],
         raw : true});
     

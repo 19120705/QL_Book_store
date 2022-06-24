@@ -1,7 +1,7 @@
 <div class="content-page" id="cart-temp">
     <div class="container-fluid">
          
-        <form id="cart-form" autocomplete="off" action="/bill/addcthoadon" method="POST">
+        <form id="cart-form" autocomplete="off" action="/bill/addhoadon" method="POST">
             <div class="row">
                 <aside class="col-lg-9">
                     <div class="card">
@@ -48,12 +48,6 @@
                         <div class="card-body"> <label>Thông tin nhập hàng</label></div>
                         <div class="card-body">
                             <dl class="dlist-align">
-                                <dt>Total price:</dt>
-                                <dd class="text-right ml-3">
-                                    <p id="tong"></p>
-                                </dd>
-                            </dl>
-                            <dl class="dlist-align">
                                 <dt>Total:</dt>
                                 <dd class="text-right text-dark b ml-3"><strong>
                                         <p id="tong" name = "TONGTIEN"></p>
@@ -90,7 +84,7 @@
             <div class="modal-content">
                 <form method="POST" action="/bill/addcthoadon">
                     <div class="modal-header">
-                        <h4 class="modal-title">Thêm sách nhập</h4>
+                        <h4 class="modal-title">Thêm sách bán</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">

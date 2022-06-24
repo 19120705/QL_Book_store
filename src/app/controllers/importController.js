@@ -65,7 +65,7 @@ class orderController {
                     const created = await importService.add(req);
                     if (created) {
                         req.session.cart = {};
-                        return res.redirect("/importOrder");
+                        return res.redirect("/importOrder?message="+"Success");
                     } else {
                         res.status(401).json("Lỗi! Kiểm tra số lượng nhập");
                     }

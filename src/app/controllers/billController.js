@@ -59,7 +59,7 @@ class sellingController {
     async add(req, res, next) {
         try {
             if (req.user ) {
-                var quantity_min = await rulesService.getMinQuantity();
+                var quantity_min = await rulesService.getCurrEMin();
                 const sach = await billService.getListBook(quantity_min);
                 res.render("bill/billAdd",{
                     sach: multipleSequelizeToObject(sach),
@@ -76,19 +76,14 @@ class sellingController {
     async addCT_HoaDon(req, res, next) {
         try {
             if (req.user) {
-                // var emp = req.user.LOAINV === "emp";
-                var quantity_min = await rulesService.getMinQuantity();
-                var curr_import_min = await rulesService.getCurrIMin();
                 var product = await cartService.getSach(req.body.MASACH);
-                        // await cartService.store(req);
                 var cart = new Cart(
                     req.session.cart ? req.session.cart : {}
                 );
                 let SoLuong=req.body.SOLUONG;
-                console.log(SoLuong)
                 if (product.LUONGTON-SoLuong < await rulesService.getCurrEMin())
                 {
-                    res.redirect("/bill/add?message="+"Add fail");
+                    res.status(401).json("Lỗi! Lượng tồn của sách sau khi bán đang thấp hơn mức quy định"); 
                 }
                 else{
                     cart.add(product, req.body.MASACH, req.body.SOLUONG);
@@ -108,7 +103,7 @@ class sellingController {
     async addHoaDon(req, res, next) {
         try {
             if (req.user) {
-                if(req.MAKH=="XXXXXX" || customerService.getdebt(req.MAKH)<=rulesService.getSoldMax())
+                if(req.body.MAKH=="XXXXXX" || customerService.getdebt(req.body.MAKH)<=rulesService.getSoldMax())
                 {
                     req.body.MAHD = await billService.genKeyHD();
                     const created = await billService.add(req);
@@ -118,6 +113,9 @@ class sellingController {
                     } else {
                         res.status(401).json("Lỗi! Kiểm tra số lượng nhập");
                     }
+                }
+                else {
+                    res.status(401).json("Lỗi! Tiền nợ của khách hàng hiện tại đang vượt quá mức quy định"); 
                 }
             } else {
                 res.redirect("/");

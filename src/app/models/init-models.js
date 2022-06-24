@@ -25,7 +25,7 @@ function initModels(sequelize) {
   var sach = _sach(sequelize, DataTypes);
   var tonno = _tonno(sequelize, DataTypes);
 
-  sach.belongsTo(loaisach, {as: "sach_loaisach",foreignKey: "LOAISACH", targetKey: 'MALOAI'});
+  sach.belongsTo(loaisach, {foreignKey: "LOAISACH", targetKey: 'MALOAI'});
   loaisach.hasMany(sach, {foreignKey: "LOAISACH", sourceKey: 'MALOAI'});
   
 
