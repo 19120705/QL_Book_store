@@ -19,7 +19,7 @@ const passport = require('./config/auth/passport');
 const userOnl = require('./app/middlewares/userOnl')
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
