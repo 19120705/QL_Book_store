@@ -1,7 +1,6 @@
 require('dotenv').config({path: '.env'});
 const path = require('path');
 const express = require('express');
-const morgan = require('morgan');
 const handlebars = require('express-handlebars');
 const { query } = require('express');
 const flash = require('connect-flash');
@@ -28,8 +27,6 @@ app.use(express.urlencoded({
 }));
 app.use(express.json());
 
-//HTTP logger
-app.use(morgan('combined'));
 
 //template emgine
 app.engine('hbs', handlebars({
